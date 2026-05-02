@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOAC Compass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600;700&family=Source+Sans+3:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:       #0d2444;
+  --navy-mid:   #1a3a5c;
+  --navy-light: #254e79;
+  --blue:       #0284c7;
+  --blue-light: #38bdf8;
+  --teal:       #0d9488;
+  --teal-light: #14b8a6;
+  --danger:     #b91c1c;
+  --text-muted: #64748b;
+  --border:     #1e3a5c;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--navy);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Subtle grid background ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(37,78,121,0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,78,121,0.35) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Soft teal glow top-left ── */
+body::after {
+  content: '';
+  position: fixed;
+  top: -160px;
+  left: -160px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(13,148,136,0.18) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Bottom-right accent ── */
+.bg-accent {
+  position: fixed;
+  bottom: -180px;
+  right: -180px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(2,132,199,0.14) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 24px;
+  max-width: 560px;
+  width: 100%;
+}
+
+/* ── Compass SVG ── */
+.compass-wrap {
+  margin-bottom: 28px;
+  animation: float 5s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* ── Brand name ── */
+.brand {
+  font-family: 'Sora', sans-serif;
+  font-size: 2.6rem;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.brand span {
+  font-weight: 700;
+  color: white;
+}
+.brand em {
+  font-style: normal;
+  font-weight: 200;
+  color: var(--teal-light);
+  letter-spacing: 0.1em;
+}
+
+.tagline {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 300;
+  font-size: 0.95rem;
+  color: #64748b;
+  letter-spacing: 0.03em;
+  margin-bottom: 40px;
+  font-style: italic;
+}
+
+/* ── WIP card ── */
+.wip-card {
+  background: rgba(26,58,92,0.5);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 36px;
+  width: 100%;
+  backdrop-filter: blur(6px);
+  margin-bottom: 28px;
+}
+
+.wip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(13,148,136,0.15);
+  border: 1px solid rgba(20,184,166,0.35);
+  color: var(--teal-light);
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.wip-badge .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--teal-light);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+.wip-title {
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.wip-body {
+  font-size: 0.92rem;
+  color: #94a3b8;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.progress-track {
+  background: rgba(13,36,68,0.8);
+  border-radius: 8px;
+  height: 6px;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.progress-fill {
+  height: 100%;
+  width: 72%;
+  background: linear-gradient(90deg, var(--teal) 0%, var(--teal-light) 100%);
+  border-radius: 8px;
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%   { opacity: 0.8; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: #475569;
+}
+
+/* ── Password section ── */
+.dev-access {
+  width: 100%;
+}
+
+.dev-trigger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.73rem;
+  color: #334155;
+  letter-spacing: 0.04em;
+  padding: 6px 0;
+  transition: color 0.2s;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.dev-trigger:hover { color: var(--text-muted); }
+
+.pw-form {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  animation: fadeIn 0.25s ease;
+}
+.pw-form.visible { display: flex; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pw-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.pw-input {
+  flex: 1;
+  background: rgba(13,36,68,0.9);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: white;
+  outline: none;
+  letter-spacing: 0.1em;
+  transition: border-color 0.2s;
+}
+.pw-input::placeholder { color: #334155; letter-spacing: 0.05em; }
+.pw-input:focus { border-color: var(--teal); }
+.pw-input.error { border-color: var(--danger); animation: shake 0.3s ease; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25%     { transform: translateX(-6px); }
+  75%     { transform: translateX(6px); }
+}
+
+.pw-btn {
+  background: var(--teal);
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  color: white;
+  font-family: 'Sora', sans-serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.pw-btn:hover { background: #0f766e; }
+
+.pw-error {
+  font-family: var(--mono);
+  font-size: 0.73rem;
+  color: #f87171;
+  display: none;
+}
+.pw-error.visible { display: block; }
+
+/* ── Footer note ── */
+.foot-note {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: #1e3a5c;
+  letter-spacing: 0.04em;
+  margin-top: 28px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-accent"></div>
+
+<div class="container">
+
+  <!-- Compass logo -->
+  <div class="compass-wrap">
+    <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="36" cy="36" r="34" stroke="#254e79" stroke-width="2"/>
+      <circle cx="36" cy="36" r="27" fill="#1a3a5c"/>
+      <!-- ticks -->
+      <line x1="36" y1="9"  x2="36" y2="16" stroke="#14b8a6" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="36" y1="56" x2="36" y2="63" stroke="#334155" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="9"  y1="36" x2="16" y2="36" stroke="#334155" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="56" y1="36" x2="63" y2="36" stroke="#334155" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- N -->
+      <text x="36" y="25" text-anchor="middle" font-family="Sora,sans-serif" font-weight="700" font-size="8" fill="#14b8a6">N</text>
+      <!-- south needle -->
+      <polygon points="36,40 39.5,58 36,52 32.5,58" fill="#254e79"/>
+      <!-- north needle — pill -->
+      <rect x="33" y="16" width="6" height="26" rx="3" fill="#0d9488"/>
+      <circle cx="36" cy="16" r="3.5" fill="#14b8a6"/>
+      <!-- centre -->
+      <circle cx="36" cy="36" r="5"   fill="#38bdf8"/>
+      <circle cx="36" cy="36" r="2.5" fill="#0d2444"/>
+    </svg>
+  </div>
+
+  <!-- Brand -->
+  <div class="brand"><span>DOAC</span> <em>COMPASS</em></div>
+  <div class="tagline">Navigating anticoagulation with confidence</div>
+
+  <!-- WIP card -->
+  <div class="wip-card">
+    <div class="wip-badge"><div class="dot"></div> Under Development</div>
+    <div class="wip-title">This tool is being prepared for launch</div>
+    <div class="wip-body">
+      DOAC Compass is a clinical decision support tool for pharmacists at Hospital Sungai Buloh,
+      covering DOAC dosing, counselling, anticoagulant conversion, and antithrombotic management.
+      It will be available to staff once ready.
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+    <div class="progress-label">
+      <span>Development in progress</span>
+      <span>72%</span>
+    </div>
+  </div>
+
+  <!-- Developer access -->
+  <div class="dev-access">
+    <div style="font-family:'Sora',sans-serif;font-weight:600;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:#334155;margin-bottom:10px;">Developer Access</div>
+    <div class="pw-form visible" id="pw-form">
+      <div class="pw-row">
+        <input
+          class="pw-input"
+          type="password"
+          id="pw-input"
+          placeholder="enter access key"
+          maxlength="20"
+          onkeydown="if(event.key==='Enter') checkPw()"
+          autocomplete="off"
+        />
+        <button class="pw-btn" onclick="checkPw()">Enter →</button>
+      </div>
+      <div class="pw-error" id="pw-error">Incorrect access key</div>
+    </div>
+  </div>
+
+<div class="foot-note">Hospital Sungai Buloh · For Internal Use Only</div>
+
+</div>
+
+<script>
+function checkPw() {
+  const input = document.getElementById('pw-input');
+  const error = document.getElementById('pw-error');
+  if (input.value === 'izy') {
+    input.style.borderColor = 'var(--teal-light)';
+    input.value = '';
+    error.classList.remove('visible');
+    setTimeout(() => { window.location.href = 'doac_tool.html'; }, 300);
+  } else {
+    input.classList.add('error');
+    error.classList.add('visible');
+    input.value = '';
+    setTimeout(() => input.classList.remove('error'), 400);
+  }
+}
+</script>
+</body>
+</html>
