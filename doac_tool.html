@@ -104,8 +104,8 @@ body {
   font-family: 'Source Sans 3', sans-serif;
   font-weight: 400;
   font-size: 0.72rem;
-  color: #64748b;
-  letter-spacing: 0.02em;
+  color: #94a3b8;
+  letter-spacing: 0.03em;
   font-style: italic;
 }
 .topbar-meta {
@@ -138,19 +138,19 @@ body {
 }
 .tab-btn {
   font-family: 'Sora', sans-serif;
-  font-size: 0.86rem;
+  font-size: 0.79rem;
   font-weight: 500;
   color: #94a3b8;
   background: transparent;
   border: none;
-  padding: 12px 18px;
+  padding: 10px 13px;
   cursor: pointer;
   border-bottom: 3px solid transparent;
   transition: all 0.2s;
   white-space: nowrap;
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 5px;
 }
 .tab-btn:hover { color: #e2e8f0; }
 .tab-btn.active {
@@ -472,6 +472,7 @@ tr:last-child td { border-bottom: none; }
 @media print {
   .tabs-nav, .topbar, .btn, .tab-btn { display: none !important; }
   .tab-content { display: block !important; }
+  footer { display: none !important; }
 }
 
 .flag-badge {
@@ -543,8 +544,42 @@ tr:last-child td { border-bottom: none; }
   transition: background 0.15s;
   line-height: 1.2;
   white-space: nowrap;
+  position: relative;
 }
 .ref-sup:hover { background: var(--blue); }
+.ref-sup .ref-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e293b;
+  color: #e2e8f0;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  max-width: 260px;
+  white-space: normal;
+  width: max-content;
+  max-width: 240px;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+.ref-sup .ref-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #1e293b;
+}
+.ref-sup:hover .ref-tooltip { display: block; }
 
 /* REFERENCES TAB */
 .ref-card {
@@ -631,29 +666,33 @@ tr:last-child td { border-bottom: none; }
 .rtb-docx { background: #eff6ff; color: #1e40af; border: 1px solid #93c5fd; }
 
 /* PARENTERAL TRACKER */
-.tracker-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 12px 0; }
+.tracker-grid { display: flex; gap: 6px; margin: 8px 0; }
 .tracker-day {
   border: 2px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 8px;
+  border-radius: 7px;
+  padding: 5px 10px;
   text-align: center;
-  cursor: pointer;
   transition: all 0.2s;
   background: white;
   user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
 }
-.tracker-day:hover { border-color: var(--blue); }
 .tracker-day.day-done { background: var(--success); border-color: var(--success); color: white; }
-.tracker-day.day-today { background: var(--blue); border-color: var(--blue); color: white; box-shadow: 0 0 0 3px rgba(2,132,199,0.25); }
+.tracker-day.day-today { background: var(--blue); border-color: var(--blue); color: white; box-shadow: 0 0 0 3px rgba(2,132,199,0.2); }
 .tracker-day.day-future { background: white; color: var(--text-light); }
-.tracker-day .td-num { font-family: var(--mono); font-size: 1.3rem; font-weight: 700; }
-.tracker-day .td-label { font-size: 0.65rem; margin-top: 2px; font-weight: 600; letter-spacing: 0.03em; }
+.tracker-day .td-num { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; }
+.tracker-day .td-label { font-size: 0.72rem; font-weight: 600; }
 
 /* PRINT STYLES */
 @media print {
   .topbar, .tabs-nav, .no-print, .btn, .counsel-drug-select { display: none !important; }
   .tab-content { display: none !important; }
   #print-area { display: block !important; }
+  footer { display: none !important; }
+  body > *:not(#print-area) { display: none !important; }
   body { background: white; font-size: 12px; }
   .print-sheet { padding: 20px; max-width: 100%; }
   .print-header { border-bottom: 3px solid #0d2444; padding-bottom: 12px; margin-bottom: 20px; }
@@ -671,7 +710,7 @@ tr:last-child td { border-bottom: none; }
 </head>
 <body>
 
-<div class="topbar">
+<div class="topbar" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="cursor:pointer" title="Back to top">
   <div class="topbar-brand">
     <!-- Compass icon -->
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
@@ -707,19 +746,19 @@ tr:last-child td { border-bottom: none; }
 <div class="tabs-nav">
 
   <button class="tab-btn active" onclick="switchTab('ref')" id="tab-ref">
-    <span class="tab-icon">📋</span> Overview
+    <span class="tab-icon">💊</span> Anticoag Hub
   </button>
   <button class="tab-btn" onclick="switchTab('screen')" id="tab-screen">
-    <span class="tab-icon">🔍</span> Prescription Screening
+    <span class="tab-icon">🔍</span> Screening
   </button>
   <button class="tab-btn" onclick="switchTab('counsel')" id="tab-counsel">
-    <span class="tab-icon">💬</span> Patient Counseling
+    <span class="tab-icon">💬</span> Counseling
   </button>
   <button class="tab-btn" onclick="switchTab('convert')" id="tab-convert">
     <span class="tab-icon">🔄</span> AC Conversion
   </button>
   <button class="tab-btn" onclick="switchTab('dapt')" id="tab-dapt">
-    <span class="tab-icon">❤️</span> DAPT / Triple Therapy
+    <span class="tab-icon">❤️</span> DAPT & Triple Tx
   </button>
   <button class="tab-btn" onclick="switchTab('refs')" id="tab-refs">
     <span class="tab-icon">📎</span> References
@@ -759,7 +798,7 @@ tr:last-child td { border-bottom: none; }
   <!-- Drug Detail Panels -->
   <div id="drug-detail-dabi" class="drug-detail-panel card" style="border-top: 4px solid #1e3a5f">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <div class="card-title" style="margin:0">🔷 Dabigatran (Pradaxa®)<a class="ref-sup" onclick="switchTab('refs')" title="See References">1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">10</a></div>
+      <div class="card-title" style="margin:0">🔷 Dabigatran (Pradaxa®)<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">1. NOAC Briefing</span>1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">10. DOAC Chop — Input Section</span>10</a></div>
       <button class="btn btn-ghost" onclick="closeDrugDetail('dabi')" style="padding:5px 10px;font-size:0.75rem">✕ Close</button>
     </div>
     <div class="two-col">
@@ -786,13 +825,18 @@ tr:last-child td { border-bottom: none; }
           <tr><td><30 ml/min</td><td class="ci-cell">CI</td><td class="ci-cell">CI</td></tr>
           <tr><td>HD/CAPD</td><td class="ci-cell">CI</td><td class="ci-cell">CI</td></tr>
         </table>
-        <div class="section-label" style="margin-top:12px">Hepatic</div>
+        <div class="section-label" style="margin-top:12px">Hepatic<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">6. DOAC Newsletter (Mar 2025)</span>6</a></div>
         <table>
           <tr><th>Child-Pugh</th><th>Status</th></tr>
           <tr><td>A</td><td class="ok-cell">No adjustment</td></tr>
           <tr><td>B</td><td class="caution-cell">Caution</td></tr>
           <tr><td>C</td><td class="ci-cell">CI</td></tr>
-          <tr><td>ALT/AST >2 ULN</td><td class="ci-cell">Not recommended</td></tr>
+        </table>
+        <div class="section-label" style="margin-top:10px;font-size:0.75rem">Transaminases (ALT/AST)</div>
+        <table>
+          <tr><th>Level</th><th>Status</th></tr>
+          <tr><td>≤2× ULN</td><td class="ok-cell">Acceptable</td></tr>
+          <tr><td>&gt;2× ULN</td><td class="ci-cell">Not recommended</td></tr>
         </table>
         <div class="section-label" style="margin-top:12px">Administration</div>
         <div class="alert alert-danger" style="margin:0"><span class="alert-icon">🚫</span><div><strong>Swallow whole.</strong> Do NOT break, chew, or open capsules.</div></div>
@@ -815,7 +859,7 @@ tr:last-child td { border-bottom: none; }
 
   <div id="drug-detail-apix" class="drug-detail-panel card" style="border-top:4px solid #065f46">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <div class="card-title" style="margin:0">🟢 Apixaban (Eliquis®)<a class="ref-sup" onclick="switchTab('refs')" title="See References">1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">10</a></div>
+      <div class="card-title" style="margin:0">🟢 Apixaban (Eliquis®)<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">1. NOAC Briefing</span>1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">10. DOAC Chop — Input Section</span>10</a></div>
       <button class="btn btn-ghost" onclick="closeDrugDetail('apix')" style="padding:5px 10px;font-size:0.75rem">✕ Close</button>
     </div>
     <div class="two-col">
@@ -845,13 +889,19 @@ tr:last-child td { border-bottom: none; }
           <tr><td>HD/CAPD</td><td class="ok-cell">2.5mg BD (FDA)</td><td class="ci-cell">CI</td></tr>
         </table>
         <div style="font-size:0.72rem;color:var(--text-muted);margin-top:5px">φ US-FDA approved for ESRF on dialysis based on PK studies</div>
-        <div class="section-label" style="margin-top:12px">Hepatic</div>
+        <div class="section-label" style="margin-top:12px">Hepatic<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">6. DOAC Newsletter (Mar 2025)</span>6</a></div>
         <table>
           <tr><th>Child-Pugh</th><th>Status</th></tr>
           <tr><td>A</td><td class="ok-cell">No adjustment</td></tr>
           <tr><td>B</td><td class="caution-cell">Caution</td></tr>
           <tr><td>C</td><td class="ci-cell">CI</td></tr>
-          <tr><td>ALT/AST >2 ULN</td><td class="caution-cell">Caution</td></tr>
+        </table>
+        <div class="section-label" style="margin-top:10px;font-size:0.75rem">Transaminases (ALT/AST)</div>
+        <table>
+          <tr><th>Level</th><th>Status</th></tr>
+          <tr><td>≤2× ULN</td><td class="ok-cell">Acceptable</td></tr>
+          <tr><td>&gt;2× ULN</td><td class="caution-cell">Use with caution — monitor LFT</td></tr>
+          <tr><td>&gt;3× ULN</td><td class="ci-cell">Not recommended</td></tr>
         </table>
         <div class="section-label" style="margin-top:12px">Administration</div>
         <div style="font-size:0.8rem;color:var(--text-mid)">Can take with or without food.<br><strong>NG tube:</strong> Crush &amp; suspend in 60mL water or D5.</div>
@@ -873,7 +923,7 @@ tr:last-child td { border-bottom: none; }
 
   <div id="drug-detail-riva" class="drug-detail-panel card" style="border-top:4px solid #7c2d12">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <div class="card-title" style="margin:0">🔴 Rivaroxaban (Xarelto®)<a class="ref-sup" onclick="switchTab('refs')" title="See References">1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">10</a></div>
+      <div class="card-title" style="margin:0">🔴 Rivaroxaban (Xarelto®)<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">1. NOAC Briefing</span>1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">10. DOAC Chop — Input Section</span>10</a></div>
       <button class="btn btn-ghost" onclick="closeDrugDetail('riva')" style="padding:5px 10px;font-size:0.75rem">✕ Close</button>
     </div>
     <div class="two-col">
@@ -894,13 +944,20 @@ tr:last-child td { border-bottom: none; }
           <tr><td>15–49 ml/min</td><td class="caution-cell">15mg OD</td><td class="caution-cell">Caution</td></tr>
           <tr><td>&lt;15 ml/min</td><td class="ci-cell">CI</td><td class="ci-cell">CI</td></tr>
         </table>
-        <div class="section-label" style="margin-top:12px">Hepatic</div>
+        <div class="section-label" style="margin-top:12px">Hepatic<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">6. DOAC Newsletter (Mar 2025)</span>6</a></div>
         <table>
           <tr><th>Child-Pugh</th><th>Status</th></tr>
           <tr><td>A</td><td class="ok-cell">No adjustment</td></tr>
           <tr><td>B</td><td class="ci-cell">CI</td></tr>
           <tr><td>C</td><td class="ci-cell">CI</td></tr>
         </table>
+        <div class="section-label" style="margin-top:10px;font-size:0.75rem">Transaminases (ALT/AST)</div>
+        <table>
+          <tr><th>Level</th><th>Status</th></tr>
+          <tr><td>≤3× ULN</td><td class="ok-cell">Acceptable</td></tr>
+          <tr><td>&gt;3× ULN</td><td class="na-cell">⚠️ No data</td></tr>
+        </table>
+        <div class="note-box" style="margin-top:6px;font-size:0.78rem">⚠️ <strong>ALT/AST &gt;3× ULN:</strong> No clinical data available. Not recommended — if used, prescriber assumes full clinical responsibility. Consider an alternative DOAC.</div>
         <div class="section-label" style="margin-top:12px">Administration</div>
         <div class="alert alert-danger" style="margin:0"><span class="alert-icon">🍽️</span><div><strong>MUST be taken WITH FOOD</strong> (15mg &amp; 20mg doses)</div></div>
         <div style="font-size:0.8rem;margin-top:8px;color:var(--text-mid)"><strong>NG tube:</strong> Crush &amp; suspend in 50mL water or D5 — administer with food/enteral feed.</div>
@@ -922,7 +979,7 @@ tr:last-child td { border-bottom: none; }
 
   <div id="drug-detail-edox" class="drug-detail-panel card" style="border-top:4px solid #4c1d95">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <div class="card-title" style="margin:0">🟣 Edoxaban (Lixiana®)<a class="ref-sup" onclick="switchTab('refs')" title="See References">1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">10</a></div>
+      <div class="card-title" style="margin:0">🟣 Edoxaban (Lixiana®)<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">1. NOAC Briefing</span>1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">10. DOAC Chop — Input Section</span>10</a></div>
       <button class="btn btn-ghost" onclick="closeDrugDetail('edox')" style="padding:5px 10px;font-size:0.75rem">✕ Close</button>
     </div>
     <div class="two-col">
@@ -950,14 +1007,22 @@ tr:last-child td { border-bottom: none; }
           <tr><td>15–50 ml/min</td><td class="caution-cell">30mg OD</td><td class="caution-cell">30mg OD</td></tr>
           <tr><td>&lt;15 ml/min</td><td class="ci-cell">CI</td><td class="ci-cell">CI</td></tr>
         </table>
-        <div class="section-label" style="margin-top:12px">Hepatic</div>
+        <div class="section-label" style="margin-top:12px">Hepatic<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">6. DOAC Newsletter (Mar 2025)</span>6</a></div>
         <table>
           <tr><th>Child-Pugh</th><th>Status</th></tr>
           <tr><td>A</td><td class="ok-cell">No adjustment</td></tr>
           <tr><td>B</td><td class="ci-cell">CI</td></tr>
           <tr><td>C</td><td class="ci-cell">CI</td></tr>
-          <tr><td>ALT/AST &gt;2 ULN + T.Bili ≥1.5 ULN</td><td class="na-cell">No data — avoid</td></tr>
         </table>
+        <div class="section-label" style="margin-top:10px;font-size:0.75rem">Transaminases &amp; Bilirubin</div>
+        <table>
+          <tr><th>Parameter</th><th>Level</th><th>Status</th></tr>
+          <tr><td>ALT/AST</td><td>≤2× ULN</td><td class="ok-cell">Acceptable</td></tr>
+          <tr><td>ALT/AST</td><td>&gt;2× ULN</td><td class="na-cell">⚠️ No data</td></tr>
+          <tr><td>T.Bilirubin</td><td>&lt;1.5× ULN</td><td class="ok-cell">Acceptable</td></tr>
+          <tr><td>T.Bilirubin</td><td>≥1.5× ULN</td><td class="na-cell">⚠️ No data</td></tr>
+        </table>
+        <div class="note-box" style="margin-top:6px;font-size:0.78rem">⚠️ <strong>ALT/AST &gt;2× ULN or T.Bilirubin ≥1.5× ULN:</strong> No clinical data available. Not recommended — if used, prescriber assumes full clinical responsibility. Consider an alternative DOAC.</div>
         <div class="section-label" style="margin-top:12px">Administration</div>
         <div style="font-size:0.8rem;color:var(--text-mid)">Can take with or without food.<br><strong>NG tube:</strong> Crush &amp; suspend in small amount of water (stable up to 4 hours).</div>
       </div>
@@ -966,7 +1031,7 @@ tr:last-child td { border-bottom: none; }
 
   <!-- Comparison Table -->
   <div class="card">
-    <div class="card-title">📊 Quick Comparison — All DOACs<a class="ref-sup" onclick="switchTab('refs')" title="See References">1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">6</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">9</a></div>
+    <div class="card-title">📊 Quick Comparison — All DOACs<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">1. NOAC Briefing</span>1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">6. DOAC Newsletter (Mar 2025)</span>6</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a></div>
     <div style="overflow-x:auto">
     <table>
       <tr>
@@ -994,10 +1059,10 @@ tr:last-child td { border-bottom: none; }
       </tr>
       <tr>
         <td><strong>VTE — Treatment</strong></td>
-        <td class="dose-cell"><span class="caution-cell">Parenteral ≥5 days FIRST</span><br>then 150mg BD<br><small>(or 110mg BD if risk factors)</small></td>
+        <td class="dose-cell"><span class="caution-cell">Parenteral ≥5 days FIRST</span><br>then 150mg BD<br><small>(or 110mg BD if risk factors as above)</small></td>
         <td class="dose-cell"><span class="ok-cell">No parenteral needed</span><br>10mg BD × 7 days → 5mg BD<br><small>Prevention of recurrence: 2.5mg BD</small></td>
         <td class="dose-cell"><span class="ok-cell">No parenteral needed</span><br>15mg BD × 21 days → 20mg OD<br><small>Prevention of recurrence: 10mg OD</small></td>
-        <td class="dose-cell"><span class="caution-cell">Parenteral ≥5 days FIRST</span><br>then 60mg OD<br><small>(or 30mg OD if risk factors)</small></td>
+        <td class="dose-cell"><span class="caution-cell">Parenteral ≥5 days FIRST</span><br>then 60mg OD<br><small>(or 30mg OD if risk factors as above)</small></td>
       </tr>
       <tr>
         <td><strong>Renal — CrCl thresholds</strong></td>
@@ -1008,10 +1073,34 @@ tr:last-child td { border-bottom: none; }
       </tr>
       <tr>
         <td><strong>Hepatic — Child-Pugh</strong></td>
-        <td><span class="ok-cell">A: No adjustment</span><br><span class="caution-cell">B: Caution</span><br><span class="ci-cell">C: CI</span><br><small class="ci-cell">Not recommended if ALT/AST &gt;2 ULN</small></td>
-        <td><span class="ok-cell">A: No adjustment</span><br><span class="caution-cell">B: Caution</span><br><span class="ci-cell">C: CI</span><br><small class="caution-cell">Caution if elevated LFT &gt;2 ULN</small></td>
-        <td><span class="ok-cell">A: No adjustment</span><br><span class="ci-cell">B: CI</span><br><span class="ci-cell">C: CI</span><br><small class="na-cell">No data if LFT &gt;3 ULN</small></td>
-        <td><span class="ok-cell">A: No adjustment</span><br><span class="ci-cell">B: CI</span><br><span class="ci-cell">C: CI</span><br><small class="na-cell">No data if LFT &gt;2 ULN &amp; T.Bili ≥1.5 ULN</small></td>
+        <td>
+          <span class="ok-cell">CP-A: No adjustment</span><br>
+          <span class="caution-cell">CP-B: Caution</span><br>
+          <span class="ci-cell">CP-C: CI</span><br>
+          <span style="display:block;margin-top:4px;font-size:0.75rem;font-weight:700;color:var(--text-muted)">Transaminases</span>
+          <small class="ci-cell">&gt;2× ULN: Not recommended</small>
+        </td>
+        <td>
+          <span class="ok-cell">CP-A: No adjustment</span><br>
+          <span class="caution-cell">CP-B: Caution</span><br>
+          <span class="ci-cell">CP-C: CI</span><br>
+          <span style="display:block;margin-top:4px;font-size:0.75rem;font-weight:700;color:var(--text-muted)">Transaminases</span>
+          <small class="caution-cell">&gt;2× ULN: Caution</small><br>
+          <small class="ci-cell">&gt;3× ULN: Not recommended</small>
+        </td>
+        <td>
+          <span class="ok-cell">CP-A: No adjustment</span><br>
+          <span class="ci-cell">CP-B/C: CI</span><br>
+          <span style="display:block;margin-top:4px;font-size:0.75rem;font-weight:700;color:var(--text-muted)">Transaminases</span>
+          <small class="na-cell">&gt;3× ULN: No data ⚠️</small>
+        </td>
+        <td>
+          <span class="ok-cell">CP-A: No adjustment</span><br>
+          <span class="ci-cell">CP-B/C: CI</span><br>
+          <span style="display:block;margin-top:4px;font-size:0.75rem;font-weight:700;color:var(--text-muted)">Transaminases &amp; Bilirubin</span>
+          <small class="na-cell">ALT/AST &gt;2× ULN: No data ⚠️</small><br>
+          <small class="na-cell">T.Bili ≥1.5× ULN: No data ⚠️</small>
+        </td>
       </tr>
       <tr>
         <td><strong>Pregnancy &amp; Lactation</strong></td>
@@ -1050,17 +1139,67 @@ tr:last-child td { border-bottom: none; }
 
   <!-- Special Populations -->
   <div class="card">
-    <div class="card-title">⚠️ Special Patient Populations<a class="ref-sup" onclick="switchTab('refs')" title="See References">1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">10</a></div>
+    <div class="card-title">⚠️ Special Patient Populations<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">1. NOAC Briefing</span>1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">10. DOAC Chop — Input Section</span>10</a></div>
     <div class="two-col">
       <div>
         <div class="accordion">
-          <button class="accordion-header" onclick="toggleAccordion(this)">🧒 Paediatric (&lt;18 years) <span>▾</span></button>
+          <button class="accordion-header" onclick="toggleAccordion(this)">🧒 Adolescent (&lt;18 years) <span>▾</span></button>
           <div class="accordion-body">
-            <div class="alert alert-warning"><span class="alert-icon">⚠️</span><div><strong>Off-label use — ensure discussion with specialist.</strong></div></div>
-            <p><strong>Dabigatran:</strong> Oral pellet (3 months–&lt;12 yrs, NOT available in Malaysia); Capsule (8–&lt;18 yrs). Forms NOT interchangeable mg-for-mg.</p>
-            <p style="margin-top:8px"><strong>Rivaroxaban:</strong> From birth to &lt;18 yrs — oral suspension (≥2.6kg, NOT available in Malaysia); Tablet (≥30kg).</p>
-            <p style="margin-top:8px"><strong>Apixaban &amp; Edoxaban:</strong> No safety &amp; efficacy studies.</p>
-            <p style="margin-top:8px">All VTE treatment: Initiate with parenteral anticoagulant for ≥5 days first.</p>
+            <div class="alert alert-warning"><span class="alert-icon">⚠️</span><div><strong>Off-label use — ensure discussion with specialist before initiating.</strong></div></div>
+
+            <p style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Available in Malaysia</p>
+
+            <ul style="padding-left:16px;line-height:2;font-size:0.88rem;margin-bottom:4px">
+              <li><strong>Rivaroxaban (tablet):</strong> Weight ≥30 kg · Off-label</li>
+              <li><strong>Dabigatran (capsule):</strong> Age 8–&lt;18 years · Off-label · <em>Capsule and oral pellet are NOT interchangeable mg-for-mg</em></li>
+              <li>⚠️ VTE treatment: Initiate parenteral anticoagulant ≥5 days before switching to DOAC</li>
+            </ul>
+
+            <div style="margin-bottom:8px">
+              <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';this.textContent=this.textContent.includes('▸')?'▾ Hide Rivaroxaban dose table':'▸ View Rivaroxaban dose table (tablet, VTE)'" style="background:none;border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:0.77rem;font-family:'Sora',sans-serif;font-weight:600;color:var(--blue);cursor:pointer">▸ View Rivaroxaban dose table (tablet, VTE)</button>
+              <div style="display:none;margin-top:8px">
+                <div style="overflow-x:auto">
+                <table style="font-size:0.8rem">
+                  <tr><th>Phase</th><th>Weight ≥30 kg</th><th>Duration</th></tr>
+                  <tr><td><strong>Initial (lead-in)</strong></td><td class="dose-cell">15 mg BD with food</td><td>3 weeks</td></tr>
+                  <tr><td><strong>Maintenance</strong></td><td class="dose-cell">20 mg OD with food</td><td>As per clinical indication</td></tr>
+                  <tr><td><strong>Extended prevention</strong></td><td class="dose-cell">10 mg OD</td><td>After ≥6 months treatment</td></tr>
+                </table>
+                </div>
+                <p style="font-size:0.75rem;color:var(--text-muted);margin-top:6px">VTE prophylaxis post-surgery (≥30 kg): 10 mg OD for 2–5 weeks — mirrors adult dosing.</p>
+                <p style="font-size:0.75rem;color:var(--text-muted);margin-top:2px;font-style:italic">Xarelto® PI (Bayer) — administer with food for doses ≥15 mg.</p>
+              </div>
+            </div>
+
+            <div style="margin-bottom:10px">
+              <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';this.textContent=this.textContent.includes('▸')?'▾ Hide Dabigatran dose table':'▸ View Dabigatran dose table (capsule, VTE)'" style="background:none;border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:0.77rem;font-family:'Sora',sans-serif;font-weight:600;color:var(--blue);cursor:pointer">▸ View Dabigatran dose table (capsule, VTE)</button>
+              <div style="display:none;margin-top:8px">
+                <div class="note-box" style="margin-bottom:8px;font-size:0.82rem">⚠️ <strong>HSgB formulary limitation:</strong> Only 110 mg and 150 mg are kept (75 mg and 100 mg for &lt;41 kg not available). Use Dabigatran for <strong>≥41 kg only (150 mg BD)</strong>. For &lt;41 kg, use Rivaroxaban (≥30 kg).</div>
+                <div style="overflow-x:auto">
+                <table style="font-size:0.8rem">
+                  <tr><th>Body Weight</th><th>Morning</th><th>Evening</th><th>Total/day</th><th>HSgB</th></tr>
+                  <tr><td>8–&lt;13 kg</td><td class="dose-cell">75 mg</td><td class="dose-cell">75 mg</td><td class="dose-cell">150 mg</td><td class="ci-cell">❌</td></tr>
+                  <tr><td>13–&lt;16 kg</td><td class="dose-cell">100 mg</td><td class="dose-cell">75 mg</td><td class="dose-cell">175 mg</td><td class="ci-cell">❌</td></tr>
+                  <tr><td>16–&lt;21 kg</td><td class="dose-cell">100 mg</td><td class="dose-cell">100 mg</td><td class="dose-cell">200 mg</td><td class="ci-cell">❌</td></tr>
+                  <tr><td>21–&lt;26 kg</td><td class="dose-cell">125 mg</td><td class="dose-cell">100 mg</td><td class="dose-cell">225 mg</td><td class="ci-cell">❌</td></tr>
+                  <tr><td>26–&lt;31 kg</td><td class="dose-cell">150 mg</td><td class="dose-cell">100 mg</td><td class="dose-cell">250 mg</td><td class="ci-cell">❌</td></tr>
+                  <tr><td>31–&lt;41 kg</td><td class="dose-cell">150 mg</td><td class="dose-cell">125 mg</td><td class="dose-cell">275 mg</td><td class="ci-cell">❌</td></tr>
+                  <tr style="background:#f0fdf4"><td><strong>41–&lt;51 kg</strong></td><td class="dose-cell"><strong>150 mg</strong></td><td class="dose-cell"><strong>150 mg</strong></td><td class="dose-cell"><strong>300 mg</strong></td><td class="ok-cell">✅</td></tr>
+                  <tr style="background:#f0fdf4"><td><strong>≥51 kg</strong></td><td class="dose-cell"><strong>150 mg</strong></td><td class="dose-cell"><strong>150 mg</strong></td><td class="dose-cell"><strong>300 mg</strong></td><td class="ok-cell">✅</td></tr>
+                </table>
+                </div>
+                <p style="font-size:0.75rem;color:var(--text-muted);margin-top:6px;font-style:italic">Pradaxa® PI (Boehringer Ingelheim) — duration same as adults. Do NOT open or crush capsules.</p>
+              </div>
+            </div>
+
+            <p style="font-size:0.75rem;color:var(--text-muted);font-style:italic;margin-bottom:4px">📋 Always refer to the latest Product Insert (PI) for updates — paediatric sections may be revised as post-marketing data accumulates.</p>
+
+            <hr style="border:none;border-top:1px dashed var(--border);margin:14px 0">
+
+            <p style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Not Available / Insufficient Evidence</p>
+            <p style="color:var(--text-muted);font-style:italic"><strong style="font-style:normal">Dabigatran (oral pellet):</strong> Indicated for 3 months–&lt;12 years — <em>not available in Malaysia.</em></p>
+            <p style="margin-top:6px;color:var(--text-muted);font-style:italic"><strong style="font-style:normal">Rivaroxaban (oral suspension):</strong> Indicated from birth (≥2.6 kg) — <em>not available in Malaysia.</em></p>
+            <p style="margin-top:6px;color:var(--text-muted);font-style:italic"><strong style="font-style:normal">Apixaban &amp; Edoxaban:</strong> No paediatric safety &amp; efficacy data. Not recommended.</p>
           </div>
         </div>
         <div class="accordion">
@@ -1135,9 +1274,123 @@ tr:last-child td { border-bottom: none; }
     </div>
   </div>
 
+
+  <!-- BLEEDING MANAGEMENT & REVERSAL -->
+  <div class="card">
+    <div class="card-title">🆘 Management of Bleeding &amp; DOAC Reversal
+      <a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a>
+      <a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">6. DOAC Newsletter (Mar 2025)</span>6</a>
+    </div>
+
+    <button onclick="toggleAccordion(this)" class="accordion-header" style="width:100%;margin-bottom:0">🩸 View Bleeding Management &amp; Reversal Guide <span>▾</span></button>
+    <div class="accordion-body">
+
+      <!-- BLEEDING SEVERITY -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Bleeding Severity Classification <span style="font-size:0.72rem;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted)">(based on <abbr style="text-decoration:underline dotted;cursor:help" title="International Society on Thrombosis and Haemostasis">ISTH</abbr> definition<a class="ref-sup" onclick="switchTab('refs')" title="See References" style="font-style:normal"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a>)</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+
+          <div style="border-radius:8px;border-left:4px solid var(--success);background:var(--success-light);padding:10px 12px">
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.82rem;color:var(--success);margin-bottom:5px">Minor Bleeding</div>
+            <ul style="padding-left:14px;font-size:0.82rem;line-height:1.8;margin:0">
+              <li>Bruising, minor cuts</li>
+              <li>Mild epistaxis or gum bleeding</li>
+              <li>Minor haematuria (no clots)</li>
+            </ul>
+            <div style="font-size:0.78rem;margin-top:7px;color:#14532d"><strong>Action:</strong> Delay or skip next dose. Apply local pressure. No reversal agent needed. <strong>Discuss with prescriber.</strong></div>
+          </div>
+
+          <div style="border-radius:8px;border-left:4px solid var(--warning);background:var(--warning-light);padding:10px 12px">
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.82rem;color:var(--warning);margin-bottom:5px">Major / Clinically Relevant Bleeding</div>
+            <ul style="padding-left:14px;font-size:0.82rem;line-height:1.8;margin:0">
+              <li>GI bleed requiring transfusion</li>
+              <li>Significant haematuria with clots</li>
+              <li>Haemoptysis</li>
+              <li>Haemoglobin drop ≥20 g/L</li>
+            </ul>
+            <div style="font-size:0.78rem;margin-top:7px;color:#78350f"><strong>Action:</strong> Withhold DOAC. Supportive care &amp; resuscitation. Discuss with specialist urgently.</div>
+          </div>
+
+          <div style="border-radius:8px;border-left:4px solid var(--danger);background:var(--danger-light);padding:10px 12px">
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.82rem;color:var(--danger);margin-bottom:5px">Life-Threatening Bleeding</div>
+            <ul style="padding-left:14px;font-size:0.82rem;line-height:1.8;margin:0">
+              <li>Intracranial haemorrhage</li>
+              <li>Haemodynamic instability</li>
+              <li>Critical organ bleeding</li>
+              <li>Transfusion ≥2 units packed red cells</li>
+            </ul>
+            <div style="font-size:0.78rem;margin-top:7px;color:#7f1d1d"><strong>Action:</strong> Immediate reversal agent. Specialist involvement mandatory. Consider ICU.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- GENERAL MEASURES -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">General Measures <span style="font-size:0.72rem;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted)">(all severities)</span></div>
+        <ol style="padding-left:18px;font-size:0.85rem;line-height:2;margin:0">
+          <li><strong>Stop DOAC</strong> immediately</li>
+          <li>Record <strong>last dose time</strong> and dose taken — guides management window</li>
+          <li>Apply <strong>local pressure / haemostasis</strong> where applicable</li>
+          <li><strong>Supportive care</strong> — IV access, fluid resuscitation, transfusion if indicated</li>
+          <li><strong>Activated charcoal</strong> if recent ingestion and airway is protected:
+            <ul style="padding-left:16px;margin-top:4px;font-size:0.82rem;line-height:1.7">
+              <li>Dabigatran: within <strong>2–4 hours</strong> of ingestion</li>
+              <li>Rivaroxaban / Apixaban / Edoxaban: within <strong>1–2 hours</strong> of ingestion</li>
+            </ul>
+          </li>
+          <li><strong>Discuss with specialist</strong> — haematology, physician or relevant surgical team</li>
+        </ol>
+      </div>
+
+      <!-- REVERSAL AGENTS -->
+      <div>
+        <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px">Reversal Agents <span style="font-size:0.72rem;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted)">(severe / life-threatening bleeding or emergency surgery)</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin-bottom:10px">
+
+          <!-- Dabigatran -->
+          <div style="border-radius:8px;border:1.5px solid var(--border);padding:12px">
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.85rem;color:#1e3a5f;margin-bottom:8px">🔷 Dabigatran (Pradaxa®)</div>
+            <div style="font-size:0.82rem">
+              <div style="margin-bottom:6px"><span class="ok-cell" style="font-weight:700;padding:2px 8px;border-radius:4px;font-size:0.78rem">1st LINE</span> <strong>Idarucizumab (Praxbind®)</strong></div>
+              <ul style="padding-left:14px;line-height:1.8;margin:0 0 8px 0">
+                <li>IV 5g STAT — administered as <strong>two separate 2.5g doses ≤15 min apart</strong></li>
+                <li>Specific antidote — rapid, complete reversal</li>
+              </ul>
+              <div style="margin-bottom:6px"><span class="caution-cell" style="font-weight:700;padding:2px 8px;border-radius:4px;font-size:0.78rem">IF UNAVAILABLE</span> <strong>IV Octaplex (4-factor PCC)</strong></div>
+              <ul style="padding-left:14px;line-height:1.8;margin:0 0 8px 0">
+                <li>50 units/kg STAT (max 4,000 units)</li>
+                <li>Non-specific; less evidence than Idarucizumab</li>
+              </ul>
+              <div style="margin-bottom:4px"><span style="font-size:0.78rem;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;padding:2px 8px;border-radius:4px;font-weight:700">CONSIDER</span> <strong>Haemodialysis</strong></div>
+              <div style="font-size:0.8rem;color:var(--text-muted);padding-left:4px">If dabigatran level very high, especially with renal impairment</div>
+            </div>
+          </div>
+
+          <!-- FXa inhibitors -->
+          <div style="border-radius:8px;border:1.5px solid var(--border);padding:12px">
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.85rem;color:#065f46;margin-bottom:8px">🟢 Apixaban · 🔴 Rivaroxaban · 🟣 Edoxaban</div>
+            <div style="font-size:0.82rem">
+              <div class="alert alert-warning" style="margin-bottom:8px;padding:6px 10px"><span class="alert-icon" style="font-size:0.9rem">⚠️</span><div style="font-size:0.8rem"><strong>Andexanet alfa</strong> — specific FXa inhibitor antidote — <strong>NOT available at HSgB</strong></div></div>
+              <div style="margin-bottom:6px"><span class="caution-cell" style="font-weight:700;padding:2px 8px;border-radius:4px;font-size:0.78rem">ALTERNATIVE</span> <strong>IV Octaplex (4-factor PCC)</strong></div>
+              <ul style="padding-left:14px;line-height:1.8;margin:0">
+                <li><strong>25–50 units/kg STAT</strong></li>
+                <li><em>or</em> <strong>2,000 units STAT</strong> (fixed dose)</li>
+                <li>Non-specific reversal strategy — use in life-threatening bleeding only</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <div style="font-size:0.78rem;color:var(--text-muted);font-style:italic;margin-top:6px">⚠️ Cessation of DOAC alone may be sufficient in minor bleeding given the short half-life of DOACs. Reversal agents are reserved for severe or life-threatening haemorrhage and emergency procedures. Always discuss with specialist before administering reversal agent.<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">6. DOAC Newsletter (Mar 2025)</span>6</a></div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- HAS-BLED -->
   <div class="card">
-    <div class="card-title">🩸 HAS-BLED Bleeding Risk Score <span class="badge badge-blue">Quick Calculator</span><a class="ref-sup" onclick="switchTab('refs')" title="See References">6</a></div>
+    <div class="card-title">🩸 HAS-BLED Bleeding Risk Score <span class="badge badge-blue">Quick Calculator</span><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">6. DOAC Newsletter (Mar 2025)</span>6</a></div>
     <div class="hasbled-grid" id="hasbled-grid">
       <div class="hb-item" onclick="toggleHasBled(this,'H')" data-letter="H">
         <div class="hb-letter">H</div>
@@ -1183,7 +1436,7 @@ tr:last-child td { border-bottom: none; }
 
   <!-- Parenteral Anticoagulants -->
   <div class="card">
-    <div class="card-title">💉 Parenteral Anticoagulants for VTE<a class="ref-sup" onclick="switchTab('refs')" title="See References">7</a></div>
+    <div class="card-title">📊 Quick Comparison — Parenteral Anticoagulants for VTE<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">7. Parenteral Anticoagulants for VTE</span>7</a></div>
     <div style="overflow-x:auto">
     <table>
       <tr>
@@ -1193,22 +1446,48 @@ tr:last-child td { border-bottom: none; }
         <th>Heparin (IV)</th>
       </tr>
       <tr>
+        <td><strong>Route</strong></td>
+        <td>Subcutaneous (S/C)</td>
+        <td>Subcutaneous (S/C)</td>
+        <td>S/C (prophylaxis)<br>IV infusion (treatment)</td>
+      </tr>
+      <tr>
         <td><strong>Treatment dose</strong></td>
         <td class="dose-cell">1mg/kg BD (standard)<br>0.75mg/kg BD if obese (actual BW)<br>1mg/kg OD if CrCl &lt;30 ml/min</td>
         <td class="dose-cell">&lt;50kg: 5mg OD<br>50–100kg: 7.5mg OD<br>&gt;100kg: 10mg OD</td>
         <td class="dose-cell">Option A (elderly/wt extremes): 80 units/kg bolus (age &lt;70) or 50 units/kg (≥70), then 18 units/kg/hr<br>Option B: 5000 units bolus, then 1000 units/hr</td>
       </tr>
       <tr>
-        <td><strong>Prophylaxis dose</strong></td>
-        <td class="dose-cell">Standard: 40mg OD<br>BMI ≥40: 40mg BD<br>CrCl &lt;30 or HD: 20mg OD</td>
-        <td class="dose-cell">&lt;50kg: CI<br>&gt;50kg: 2.5mg OD</td>
-        <td class="dose-cell">Standard: 5000 units BD/TDS (SC)<br>BMI ≥40: 7500 units BD</td>
+        <td><strong>Prophylaxis dose</strong><br><small style="color:var(--text-muted);font-weight:400">Indication-dependent</small></td>
+        <td class="dose-cell">
+          <span style="font-size:0.78rem"><strong>Medical / Non-major ortho:</strong> 40mg OD</span><br>
+          <span style="font-size:0.78rem"><strong>Major ortho (THA/TKA):</strong> 40–60mg OD</span><br>
+          <span style="font-size:0.78rem"><strong>Pregnancy:</strong> Weight-based (20–80mg OD)</span><br>
+          <span style="font-size:0.78rem;color:var(--text-muted)">See Dose Calculator below for full weight-banded dosing</span>
+        </td>
+        <td class="dose-cell">
+          <span style="font-size:0.78rem"><strong>Medical / surgical:</strong> 2.5mg OD</span><br>
+          <span style="font-size:0.78rem;color:var(--danger)">BW &lt;50kg: Not recommended</span><br>
+          <span style="font-size:0.78rem;color:var(--text-muted)">Not used in pregnancy</span>
+        </td>
+        <td class="dose-cell">BMI &lt;40: S/C 5000 units BD or TDS<br>BMI ≥40: S/C 7500 units BD</td>
       </tr>
       <tr>
-        <td><strong>Renal</strong></td>
-        <td>CrCl &lt;30: dose reduce to OD</td>
-        <td class="ci-cell">CI if CrCl &lt;30 ml/min</td>
-        <td class="ok-cell">No dosage adjustment</td>
+        <td><strong>Renal adjustment</strong><br><small style="color:var(--text-muted);font-weight:400">CrCl 15–30 ml/min</small></td>
+        <td class="dose-cell">
+          <span style="font-size:0.78rem"><strong>Treatment:</strong> 1mg/kg <u>OD</u> (weight-banded — see calculator)</span><br>
+          <span style="font-size:0.78rem"><strong>Prophylaxis:</strong> Indication &amp; weight-dependent — see calculator</span>
+        </td>
+        <td class="ci-cell">⛔ Contraindicated if CrCl &lt;30 ml/min</td>
+        <td class="ok-cell">No dosage adjustment required</td>
+      </tr>
+      <tr>
+        <td><strong>Severe renal impairment</strong><br><small style="color:var(--text-muted);font-weight:400">CrCl &lt;15 ml/min</small></td>
+        <td style="background:var(--danger-light);color:#7f1d1d;font-size:0.82rem">
+          🚫 Avoid routine use due to accumulation and bleeding risk.<br>If Clexane is required, seek specialist advice.
+        </td>
+        <td class="ci-cell">⛔ Contraindicated</td>
+        <td class="ok-cell">No dosage adjustment required</td>
       </tr>
       <tr>
         <td><strong>Pregnancy</strong></td>
@@ -1244,6 +1523,71 @@ tr:last-child td { border-bottom: none; }
     </div>
   </div>
 
+
+
+  <!-- PARENTERAL DOSING CALCULATOR -->
+  <div class="card">
+    <div class="card-title">💉 Parenteral Anticoagulant Dose Calculator
+      <span class="badge badge-blue">Enoxaparin · Fondaparinux · UFH</span>
+      <a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">7. Parenteral Anticoagulants for VTE</span>7</a>
+      <a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">14. HSgB Anticoagulant Chart — COVID-19</span>14</a>
+      <a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">15. HSgB IVI Heparin Protocol for VTE</span>15</a>
+      <a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">16. Pregnancy Thromboprophylaxis — RCOG GTG 37a</span>16</a>
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="note-box">⚠️ This calculator is for <strong>non-ICU, non-paediatric</strong> patients. Always confirm with prescriber. Pregnancy dosing is based on RCOG GTG 37a.</div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="step-header"><span class="step-num">1</span> Patient Parameters</div>
+    <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:14px">
+
+      <div class="form-group">
+        <label>Body Weight (kg)</label>
+        <input type="number" id="pd-weight" min="0" max="300" placeholder="e.g. 65" oninput="calcParenteral()">
+      </div>
+      <div class="form-group">
+        <label>BMI (kg/m²)</label>
+        <input type="number" id="pd-bmi" min="0" max="100" placeholder="e.g. 28" oninput="calcParenteral()">
+        <span class="form-hint">Required for obesity dose adjustment (BMI ≥40)</span>
+      </div>
+
+      <div class="form-group">
+        <label>Indication</label>
+        <select id="pd-indication" onchange="calcParenteral()">
+          <option value="">— Select indication —</option>
+          <optgroup label="Prophylaxis">
+            <option value="vte-proph">VTE Prophylaxis — Medical / Non-major Orthopaedic Surgery</option>
+            <option value="major-ortho-proph">VTE Prophylaxis — Major Orthopaedic Surgery (THA / TKA / Hip Fracture)</option>
+            <option value="preg-proph">Thromboprophylaxis — Pregnancy</option>
+            <option value="tx-proph">Therapeutic-Dose Prophylaxis — COVID / High-flow O₂</option>
+          </optgroup>
+          <optgroup label="Treatment">
+            <option value="dvt-pe">DVT / PE Treatment</option>
+            <option value="acs">ACS Treatment</option>
+          </optgroup>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Output -->
+    <div id="pd-placeholder" style="text-align:center;padding:20px;color:var(--text-muted);font-size:0.83rem">Select indication and enter weight to see all renal-tiered dose recommendations.</div>
+    <div id="pd-output" style="display:none">
+      <div class="step-header" style="margin-top:4px"><span class="step-num">2</span> Recommended Doses</div>
+      <div id="pd-output-content"></div>
+    </div>
+  </div>
+
+  <!-- Always-visible guide buttons -->
+  <div style="margin-top:-8px;margin-bottom:8px;padding:0 0 4px 0">
+    <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:8px">⚠️ Always verify with prescriber. CrCl &lt;15: limited data for Enoxaparin. Fondaparinux CrCl &lt;30: contraindicated.</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <a href="COVID_-_Inj__Anticoagulant_Dosing_Guide__Jan_2022_.pdf" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:white;padding:8px 16px;border-radius:7px;font-family:'Sora',sans-serif;font-weight:600;font-size:0.78rem;text-decoration:none" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='var(--navy)'">📄 View Full Dosing Guide ↗</a>
+      <a href="Pregnancy_thromboprophylaxis_dosing_guide2_png.png" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#6d28d9;color:white;padding:8px 16px;border-radius:7px;font-family:'Sora',sans-serif;font-weight:600;font-size:0.78rem;text-decoration:none" onmouseover="this.style.background='#7c3aed'" onmouseout="this.style.background='#6d28d9'">🤰 Pregnancy Dosing Guide ↗</a>
+    </div>
+  </div>
+
 </div>
 
 <!-- ======== TAB 2: PRESCRIPTION SCREENING ======== -->
@@ -1251,37 +1595,66 @@ tr:last-child td { border-bottom: none; }
 
   <div class="alert alert-danger">
     <span class="alert-icon">🚨</span>
-    <div><strong>DOAC is a HIGH ALERT medication.</strong> Must be screened by Pharmacist (PF) before dispensing. Document "SCREENED BY PF ______" in counseling notes.</div>
+    <div><strong>DOAC is a HIGH ALERT medication.</strong> Must be screened by Pharmacist (PF) before dispensing.</div>
+  </div>
+
+  <!-- MODE TOGGLE -->
+  <div style="display:flex;gap:0;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;max-width:520px">
+    <button id="mode-btn-screen" onclick="setScreenMode('screen')" style="flex:1;padding:9px 16px;font-family:'Sora',sans-serif;font-weight:700;font-size:0.82rem;border:none;cursor:pointer;background:#be185d;color:white;transition:all 0.15s">🔍 Screen a Prescription</button>
+    <button id="mode-btn-find" onclick="setScreenMode('find')" style="flex:1;padding:9px 16px;font-family:'Sora',sans-serif;font-weight:700;font-size:0.82rem;border:none;cursor:pointer;background:#fce7f3;color:#9d174d;border-left:1.5px solid #f9a8d4;transition:all 0.15s">💡 Find a Suitable DOAC</button>
+  </div>
+
+  <!-- Find mode notice -->
+  <div id="find-mode-notice" style="display:none" class="alert alert-info">
+    <span class="alert-icon">💡</span>
+    <div><strong>Find Mode:</strong> Fill in all patient parameters below. The DOAC field is hidden — the system will evaluate all four DOACs and recommend suitable options with doses.</div>
   </div>
 
   <div class="two-thirds">
     <div>
       <!-- STEP 1 -->
       <div class="card">
-        <div class="step-header"><div class="step-num">1</div> Patient Information <a class="ref-sup" onclick="switchTab('refs')" title="See References">2</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">10</a></div>
+        <div class="step-header"><div class="step-num">1</div> Patient Information <a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">2. DOAC Screening Criteria</span>2</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">10. DOAC Chop — Input Section</span>10</a></div>
+        <!-- Prominent DOAC + Indication banner -->
+        <div style="background:linear-gradient(135deg,#0d2444 0%,#1a3a5c 100%);border-radius:10px;padding:14px 16px;margin-bottom:14px;border:2px solid #254e79">
+          <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#38bdf8;margin-bottom:10px">⚠️ Complete these first</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+            <div class="form-group" style="margin:0" id="s-drug-wrapper">
+              <label style="color:#e2e8f0;font-size:0.82rem;font-weight:700">DOAC Prescribed <span style="color:#f87171">*</span></label>
+              <select id="s-drug" onchange="runScreening();toggleTbiliField()" style="border:2px solid #38bdf8;border-radius:7px;padding:9px 12px;font-size:0.88rem;background:white;outline:none;width:100%;font-weight:600">
+                <option value="">— Select DOAC —</option>
+                <option value="dabi">Dabigatran (Pradaxa®)</option>
+                <option value="apix">Apixaban (Eliquis®)</option>
+                <option value="riva">Rivaroxaban (Xarelto®)</option>
+                <option value="edox">Edoxaban (Lixiana®)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label style="color:#e2e8f0;font-size:0.82rem;font-weight:700">Indication <span style="color:#f87171">*</span></label>
+              <select id="s-indication" onchange="runScreening()" style="border:2px solid #38bdf8;border-radius:7px;padding:9px 12px;font-size:0.88rem;background:white;outline:none;width:100%;font-weight:600">
+                <option value="">— Select Indication —</option>
+                <option value="AF">AF (Stroke Prevention in AF — SPAF)</option>
+                <option value="VTE">VTE Treatment (DVT / PE)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <div class="form-grid">
           <div class="form-group">
-            <label>Indication</label>
-            <select id="s-indication" onchange="runScreening()">
-              <option value="">— Select —</option>
-              <option value="AF">AF (Stroke Prevention in AF — SPAF)</option>
-              <option value="VTE">VTE Treatment (DVT / PE)</option>
-              <option value="VTE-prev">VTE Prevention (post-surgery)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>DOAC Prescribed</label>
-            <select id="s-drug" onchange="runScreening()">
-              <option value="">— Select —</option>
-              <option value="dabi">Dabigatran</option>
-              <option value="apix">Apixaban</option>
-              <option value="riva">Rivaroxaban</option>
-              <option value="edox">Edoxaban</option>
-            </select>
-          </div>
-          <div class="form-group">
             <label>Age (years)</label>
-            <input type="number" id="s-age" min="0" max="120" placeholder="e.g. 72" oninput="runScreening()">
+            <input type="number" id="s-age" min="0" max="120" placeholder="e.g. 72" oninput="runScreening();calcInlineCrCl()">
+          </div>
+
+          <!-- ── RENAL FUNCTION ─────────────────────────────── -->
+          <div style="grid-column:1/-1;display:flex;align-items:center;gap:8px;margin-top:4px;margin-bottom:-4px">
+            <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);font-family:'Sora',sans-serif">🔵 Renal Function</span>
+            <div style="flex:1;border-top:1px dashed var(--border)"></div>
+          </div>
+          <div class="form-group">
+            <label>Serum Creatinine (µmol/L)</label>
+            <input type="number" id="s-scr" min="0" placeholder="e.g. 120" oninput="runScreening();calcInlineCrCl()">
+            <span class="form-hint">For CrCl calculation &amp; Apixaban dose reduction check</span>
           </div>
           <div class="form-group">
             <label>CrCl / eGFR (ml/min)</label>
@@ -1289,12 +1662,12 @@ tr:last-child td { border-bottom: none; }
               <input type="number" id="s-crcl" min="0" max="200" placeholder="e.g. 45" oninput="runScreening()" style="flex:1">
               <button type="button" class="btn" onclick="toggleCrClHelper()" id="crcl-helper-btn" style="padding:8px 11px;font-size:0.75rem;background:var(--info-light);color:var(--blue);border:1.5px solid var(--info-border);white-space:nowrap;font-family:'Sora',sans-serif;font-weight:600">🧮 Calculate</button>
             </div>
-            <!-- Inline CrCl helper — shows when gender is missing -->
-            <div id="crcl-inline-helper" style="display:none;margin-top:8px;background:var(--info-light);border:1.5px solid var(--info-border);border-radius:8px;padding:12px">
-              <div style="font-size:0.78rem;font-weight:700;color:#1e40af;margin-bottom:8px;font-family:'Sora',sans-serif">Cockcroft-Gault — uses Age, Weight &amp; SCr already entered above</div>
+            <!-- Inline CrCl helper -->
+            <div id="crcl-inline-helper" style="display:none;margin-top:8px;background:var(--info-light);border:1.5px solid var(--info-border);border-radius:8px;padding:10px">
+              <div style="font-size:0.68rem;color:#3b82f6;margin-bottom:7px;font-style:italic">Cockcroft-Gault · uses Age, Weight &amp; SCr entered above</div>
               <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
                 <div class="form-group" style="margin:0;flex:1;min-width:140px">
-                  <label style="color:#1e40af;font-size:0.75rem">Patient Sex <span style="color:var(--danger)">*</span></label>
+                  <label style="color:#1e40af;font-size:0.75rem">Gender <span style="color:var(--danger)">*</span></label>
                   <select id="crcl-sex" onchange="calcInlineCrCl()" style="border:1.5px solid var(--info-border);border-radius:7px;padding:7px 10px;font-size:0.83rem;background:white;outline:none;width:100%">
                     <option value="">— Select —</option>
                     <option value="M">Male</option>
@@ -1308,45 +1681,165 @@ tr:last-child td { border-bottom: none; }
                   <button onclick="applyCrCl()" style="margin-top:6px;background:var(--blue);color:white;border:none;border-radius:5px;padding:5px 12px;font-size:0.75rem;font-family:'Sora',sans-serif;font-weight:600;cursor:pointer;width:100%">↓ Apply to Form</button>
                 </div>
               </div>
-              <div style="font-size:0.7rem;color:#3b82f6;margin-top:6px">Formula: [(140 − age) × weight ÷ (0.814 × SCr)] × 0.85 if female</div>
+              <div style="font-size:0.67rem;color:#3b82f6;margin-top:5px">(140 − Age) × Weight × F ÷ SCr (µmol/L) · F = 1.23 male, 1.04 female</div>
             </div>
+          </div>
+
+          <!-- ── BODY COMPOSITION ───────────────────────────── -->
+          <div style="grid-column:1/-1;display:flex;align-items:center;gap:8px;margin-top:4px;margin-bottom:-4px">
+            <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);font-family:'Sora',sans-serif">⚖️ Body Composition</span>
+            <div style="flex:1;border-top:1px dashed var(--border)"></div>
           </div>
           <div class="form-group">
             <label>Body Weight (kg)</label>
-            <input type="number" id="s-weight" min="0" max="300" placeholder="e.g. 65" oninput="runScreening()">
+            <input type="number" id="s-weight" min="0" max="300" placeholder="e.g. 65" oninput="runScreening();calcInlineCrCl()">
           </div>
           <div class="form-group">
             <label>BMI (kg/m²)</label>
-            <input type="number" id="s-bmi" min="0" max="80" placeholder="e.g. 28" oninput="runScreening()">
+            <div style="display:flex;gap:7px;align-items:center">
+              <input type="number" id="s-bmi" min="0" max="80" placeholder="e.g. 28" oninput="runScreening()" style="flex:1">
+              <button type="button" class="btn" onclick="toggleBmiHelper()" id="bmi-helper-btn" style="padding:8px 11px;font-size:0.75rem;background:var(--info-light);color:var(--blue);border:1.5px solid var(--info-border);white-space:nowrap;font-family:'Sora',sans-serif;font-weight:600">🧮 Calculate</button>
+            </div>
+            <div id="bmi-inline-helper" style="display:none;margin-top:8px;background:var(--info-light);border:1.5px solid var(--info-border);border-radius:8px;padding:10px">
+              <div style="font-size:0.68rem;color:#3b82f6;margin-bottom:7px;font-style:italic">Uses weight already entered above · Height (cm) required</div>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <div class="form-group" style="margin:0;flex:1;min-width:120px">
+                  <label style="color:#1e40af;font-size:0.75rem">Height (cm) <span style="color:var(--danger)">*</span></label>
+                  <input type="number" id="bmi-height" min="100" max="250" placeholder="e.g. 165" oninput="calcInlineBmi()" style="border:1.5px solid var(--info-border);border-radius:7px;padding:7px 10px;font-size:0.83rem;background:white;outline:none;width:100%">
+                </div>
+                <div id="bmi-inline-result" style="display:none;padding:8px 14px;border-radius:7px;background:white;border:1.5px solid var(--info-border);min-width:150px">
+                  <div style="font-size:0.7rem;color:var(--text-muted)">Calculated BMI</div>
+                  <div id="bmi-inline-val" style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700;color:var(--navy)">—</div>
+                  <div id="bmi-inline-interp" style="font-size:0.72rem;margin-top:2px"></div>
+                  <button onclick="applyBmi()" style="margin-top:6px;background:var(--blue);color:white;border:none;border-radius:5px;padding:5px 12px;font-size:0.75rem;font-family:'Sora',sans-serif;font-weight:600;cursor:pointer;width:100%">↓ Apply to Form</button>
+                </div>
+              </div>
+              <div style="font-size:0.67rem;color:#3b82f6;margin-top:5px">Weight (kg) ÷ Height (m)²</div>
+            </div>
+          </div>
+
+          <!-- ── LIVER FUNCTION ─────────────────────────────── -->
+          <div style="grid-column:1/-1;display:flex;align-items:center;gap:8px;margin-top:4px;margin-bottom:-4px">
+            <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);font-family:'Sora',sans-serif">🟤 Liver Function</span>
+            <div style="flex:1;border-top:1px dashed var(--border)"></div>
           </div>
           <div class="form-group">
-            <label>Serum Creatinine (µmol/L)</label>
-            <input type="number" id="s-scr" min="0" placeholder="e.g. 120" oninput="runScreening()">
-            <span class="form-hint">For Apixaban dose reduction check</span>
-          </div>
-          <div class="form-group">
-            <label>ALT / AST (× ULN)</label>
-            <select id="s-alt" onchange="runScreening()">
-              <option value="">— Select —</option>
-              <option value="normal">&lt; 2× ULN (Normal)</option>
-              <option value="2-3">2–3× ULN</option>
-              <option value="3plus">&gt; 3× ULN</option>
-            </select>
+            <label>ALT (U/L) <span style="font-size:0.68rem;color:var(--text-muted);font-weight:400">ULN: 35 U/L</span></label>
+            <div style="display:flex;gap:7px;align-items:center">
+              <input type="number" id="s-alt-raw" min="0" placeholder="e.g. 28" oninput="updateLftBadge('alt');runScreening()" style="flex:1">
+              <span id="alt-tier-badge" style="display:none;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap"></span>
+            </div>
           </div>
           <div class="form-group">
             <label>Child-Pugh Class</label>
-            <select id="s-cpugh" onchange="runScreening()">
-              <option value="">— Select / Not applicable —</option>
-              <option value="A">A (Mild)</option>
-              <option value="B">B (Moderate)</option>
-              <option value="C">C (Severe)</option>
-            </select>
+            <div style="display:flex;gap:7px;align-items:center">
+              <select id="s-cpugh" onchange="runScreening()" style="flex:1">
+                <option value="">— Select —</option>
+                <option value="A">A — No / Mild impairment (5–6 pts)</option>
+                <option value="B">B (Moderate · 7–9 pts)</option>
+                <option value="C">C (Severe · 10–15 pts)</option>
+              </select>
+              <button type="button" class="btn" onclick="toggleCpughHelper()" id="cpugh-helper-btn" style="padding:8px 11px;font-size:0.75rem;background:var(--info-light);color:var(--blue);border:1.5px solid var(--info-border);white-space:nowrap;font-family:'Sora',sans-serif;font-weight:600">🧮 Calculate</button>
+            </div>
+            <div id="cpugh-inline-helper" style="display:none;margin-top:8px;background:var(--info-light);border:1.5px solid var(--info-border);border-radius:8px;padding:12px">
+              <div style="font-size:0.68rem;color:#3b82f6;margin-bottom:10px;font-style:italic">Child-Pugh Score — 5 criteria, each scored 1–3 pts · Class A: 5–6 · B: 7–9 · C: 10–15</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+                <div class="form-group" style="margin:0">
+                  <label style="color:#1e40af;font-size:0.75rem">Total Bilirubin (µmol/L)</label>
+                  <select id="cp-bili" onchange="calcChildPugh()" style="border:1.5px solid var(--info-border);border-radius:7px;padding:7px 10px;font-size:0.8rem;background:white;outline:none;width:100%">
+                    <option value="">— Select —</option>
+                    <option value="1">&lt; 34 µmol/L (1 pt)</option>
+                    <option value="2">34–50 µmol/L (2 pts)</option>
+                    <option value="3">&gt; 50 µmol/L (3 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin:0">
+                  <label style="color:#1e40af;font-size:0.75rem">Serum Albumin (g/L)</label>
+                  <select id="cp-albumin" onchange="calcChildPugh()" style="border:1.5px solid var(--info-border);border-radius:7px;padding:7px 10px;font-size:0.8rem;background:white;outline:none;width:100%">
+                    <option value="">— Select —</option>
+                    <option value="1">&gt; 35 g/L (1 pt)</option>
+                    <option value="2">28–35 g/L (2 pts)</option>
+                    <option value="3">&lt; 28 g/L (3 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin:0">
+                  <label style="color:#1e40af;font-size:0.75rem">INR</label>
+                  <select id="cp-inr" onchange="calcChildPugh()" style="border:1.5px solid var(--info-border);border-radius:7px;padding:7px 10px;font-size:0.8rem;background:white;outline:none;width:100%">
+                    <option value="">— Select —</option>
+                    <option value="1">&lt; 1.7 (1 pt)</option>
+                    <option value="2">1.7–2.3 (2 pts)</option>
+                    <option value="3">&gt; 2.3 (3 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin:0">
+                  <label style="color:#1e40af;font-size:0.75rem">Ascites</label>
+                  <select id="cp-ascites" onchange="calcChildPugh()" style="border:1.5px solid var(--info-border);border-radius:7px;padding:7px 10px;font-size:0.8rem;background:white;outline:none;width:100%">
+                    <option value="">— Select —</option>
+                    <option value="1">None (1 pt)</option>
+                    <option value="2">Mild / controlled (2 pts)</option>
+                    <option value="3">Moderate–severe / refractory (3 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group" style="margin:0;grid-column:1/-1">
+                  <label style="color:#1e40af;font-size:0.75rem">Hepatic Encephalopathy</label>
+                  <select id="cp-enceph" onchange="calcChildPugh()" style="border:1.5px solid var(--info-border);border-radius:7px;padding:7px 10px;font-size:0.8rem;background:white;outline:none;width:100%">
+                    <option value="">— Select —</option>
+                    <option value="1">None (1 pt)</option>
+                    <option value="2">Grade 1–2 / mild–moderate (2 pts)</option>
+                    <option value="3">Grade 3–4 / severe–coma (3 pts)</option>
+                  </select>
+                </div>
+              </div>
+              <div id="cpugh-inline-result" style="display:none;padding:10px 14px;border-radius:7px;background:white;border:1.5px solid var(--info-border)">
+                <div style="display:flex;align-items:center;gap:14px">
+                  <div>
+                    <div style="font-size:0.7rem;color:var(--text-muted)">Total Score</div>
+                    <div id="cpugh-score" style="font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--navy)">—</div>
+                  </div>
+                  <div>
+                    <div style="font-size:0.7rem;color:var(--text-muted)">Class</div>
+                    <div id="cpugh-class" style="font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700">—</div>
+                  </div>
+                  <div style="flex:1">
+                    <div id="cpugh-interp" style="font-size:0.78rem;line-height:1.4"></div>
+                  </div>
+                </div>
+                <button onclick="applyCpugh()" style="margin-top:8px;background:var(--blue);color:white;border:none;border-radius:5px;padding:5px 12px;font-size:0.75rem;font-family:'Sora',sans-serif;font-weight:600;cursor:pointer;width:100%">↓ Apply Class to Form</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>AST (U/L) <span style="font-size:0.68rem;color:var(--text-muted);font-weight:400">ULN: 35 U/L</span></label>
+            <div style="display:flex;gap:7px;align-items:center">
+              <input type="number" id="s-ast-raw" min="0" placeholder="e.g. 28" oninput="updateLftBadge('ast');runScreening()" style="flex:1">
+              <span id="ast-tier-badge" style="display:none;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap"></span>
+            </div>
+          </div>
+          <div class="form-group" id="tbili-group" style="display:none">
+            <label>Total Bilirubin (µmol/L) <span style="font-size:0.68rem;color:var(--text-muted);font-weight:400">ULN: 15 µmol/L · Edoxaban-specific</span></label>
+            <div style="display:flex;gap:7px;align-items:center">
+              <input type="number" id="s-tbili" min="0" placeholder="e.g. 12" oninput="updateTbiliBadge();runScreening()" style="flex:1">
+              <span id="tbili-badge" style="display:none;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap"></span>
+            </div>
+          </div>
+
+          <!-- ── HAEMATOLOGY ──────────────────────────────── -->
+          <div style="grid-column:1/-1;display:flex;align-items:center;gap:8px;margin-top:4px;margin-bottom:-4px">
+            <span style="font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);font-family:'Sora',sans-serif">🩸 Haematology</span>
+            <div style="flex:1;border-top:1px dashed var(--border)"></div>
+          </div>
+          <div class="form-group">
+            <label>Platelet Count (×10⁹/L) <span style="font-size:0.68rem;color:var(--text-muted);font-weight:400">Normal: ≥150</span></label>
+            <div style="display:flex;gap:7px;align-items:center">
+              <input type="number" id="s-platelet" min="0" max="1500" placeholder="e.g. 180" oninput="updatePlateletBadge();runScreening()" style="flex:1">
+              <span id="platelet-badge" style="display:none;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap"></span>
+            </div>
           </div>
           <div class="form-group">
             <label>INR (if switching from warfarin)</label>
             <input type="number" id="s-inr" min="0" max="10" step="0.1" placeholder="e.g. 2.1" oninput="runScreening()">
           </div>
-          <div class="form-group">
+          <div class="form-group" id="supply-group">
             <label>Method of Supply</label>
             <select id="s-supply" onchange="runScreening()">
               <option value="">— Select —</option>
@@ -1381,6 +1874,10 @@ tr:last-child td { border-bottom: none; }
           <label class="checkbox-item">
             <input type="checkbox" id="ci-allergy" onchange="runScreening()">
             <div><div class="ci-label">Allergy / Hypersensitivity to DOAC</div></div>
+          </label>
+          <label class="checkbox-item" id="ci-none-row" style="display:none;border-top:1px dashed var(--border);margin-top:4px;padding-top:4px">
+            <input type="checkbox" id="ci-none" onchange="onNoneCheck('ci')">
+            <div><div class="ci-label" style="color:var(--success)">✓ None of the above apply</div><div class="ci-note">Confirm no contraindications for this patient</div></div>
           </label>
         </div>
       </div>
@@ -1421,11 +1918,15 @@ tr:last-child td { border-bottom: none; }
             <input type="checkbox" id="sp-cyclosporin" onchange="runScreening()">
             <div><div class="ci-label">Concomitant Cyclosporin / Dronedarone / Erythromycin / Ketoconazole</div><div class="ci-note">Relevant to Edoxaban dosing</div></div>
           </label>
+          <label class="checkbox-item" id="sp-none-row" style="display:none;border-top:1px dashed var(--border);margin-top:4px;padding-top:4px">
+            <input type="checkbox" id="sp-none" onchange="onNoneCheck('sp')">
+            <div><div class="ci-label" style="color:var(--success)">✓ None of the above apply</div><div class="ci-note">Confirm no special cautions / profiles for this patient</div></div>
+          </label>
         </div>
       </div>
 
       <div style="display:flex;gap:10px;margin-bottom:20px">
-        <button class="btn btn-primary" onclick="runScreening()">🔍 Run Screening</button>
+        <button class="btn btn-primary" id="run-btn" onclick="currentMode==='find'?runFindMode():runScreening()">🔍 Run Screening</button>
         <button class="btn btn-ghost" onclick="resetScreening()">↺ Reset</button>
       </div>
     </div>
@@ -1438,6 +1939,11 @@ tr:last-child td { border-bottom: none; }
           <!-- Populated by JS -->
         </div>
       </div>
+      <!-- FIND MODE OUTPUT -->
+      <div id="find-results" style="display:none">
+        <div id="find-results-body"></div>
+      </div>
+
       <div id="screening-placeholder" class="card" style="text-align:center;padding:30px;color:var(--text-muted)">
         <div style="font-size:2.5rem;margin-bottom:10px">🔍</div>
         <div style="font-family:'Sora',sans-serif;font-weight:600;margin-bottom:6px">Screening Panel</div>
@@ -1457,7 +1963,7 @@ tr:last-child td { border-bottom: none; }
 
   <!-- Pre-counseling checklist -->
   <div class="card">
-    <div class="card-title">✅ Pre-Counseling Assessment Checklist<a class="ref-sup" onclick="switchTab('refs')" title="See References">3</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">8</a></div>
+    <div class="card-title">✅ Pre-Counseling Assessment Checklist<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">3. NOACs Counseling Checklist (Jan 2026)</span>3</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">8. Pre-Counseling Assessment</span>8</a></div>
     <ul class="checklist" id="pre-counsel-list">
       <li><input type="checkbox" id="pc1" onchange="strikeItem('pc1','pc1-label')"><label id="pc1-label" for="pc1">Patient/carer agreed for DOAC?</label></li>
       <li><input type="checkbox" id="pc2" onchange="strikeItem('pc2','pc2-label')"><label id="pc2-label" for="pc2">Confirm indication — <strong>AF vs DVT/PE dosing are different!</strong></label></li>
@@ -1475,7 +1981,7 @@ tr:last-child td { border-bottom: none; }
 
   <!-- Drug-specific counseling -->
   <div class="card">
-    <div class="card-title">💊 Drug-Specific Counseling Points<a class="ref-sup" onclick="switchTab('refs')" title="See References">1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">3</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">9</a></div>
+    <div class="card-title">💊 Drug-Specific Counseling Points<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">1. NOAC Briefing</span>1</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">3. NOACs Counseling Checklist (Jan 2026)</span>3</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a></div>
     <div class="counsel-drug-select">
       <button class="counsel-drug-btn" onclick="showCounsel('dabi',this)">Dabigatran</button>
       <button class="counsel-drug-btn" onclick="showCounsel('apix',this)">Apixaban</button>
@@ -1649,14 +2155,14 @@ tr:last-child td { border-bottom: none; }
 
   <!-- Counseling Notes Reminder -->
   <div class="card">
-    <div class="card-title">📝 Counseling Notes — Must Include<a class="ref-sup" onclick="switchTab('refs')" title="See References">3</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">8</a></div>
+    <div class="card-title">📝 Counseling Notes — Must Include<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">3. NOACs Counseling Checklist (Jan 2026)</span>3</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">8. Pre-Counseling Assessment</span>8</a></div>
     <ul class="checklist">
       <li><input type="checkbox" id="cn1" onchange="strikeItem('cn1','cn1-label')"><label id="cn1-label" for="cn1">Last parenteral dose date and time (for DVT/PE patients)</label></li>
       <li><input type="checkbox" id="cn2" onchange="strikeItem('cn2','cn2-label')"><label id="cn2-label" for="cn2">Remind Dr / SN to stop parenteral anticoagulant once DOAC started</label></li>
       <li><input type="checkbox" id="cn3" onchange="strikeItem('cn3','cn3-label')"><label id="cn3-label" for="cn3">Patient verified correct DOAC name &amp; strength (show physical pack)</label></li>
       <li><input type="checkbox" id="cn4" onchange="strikeItem('cn4','cn4-label')"><label id="cn4-label" for="cn4">Starting date recorded (especially for DVT/PE — when to switch from lead-in dose)</label></li>
       <li><input type="checkbox" id="cn5" onchange="strikeItem('cn5','cn5-label')"><label id="cn5-label" for="cn5">Any intervention / discussion with Dr recorded</label></li>
-      <li><input type="checkbox" id="cn6" onchange="strikeItem('cn6','cn6-label')"><label id="cn6-label" for="cn6">Correct date keyed in for VTE</label></li>
+      <li><input type="checkbox" id="cn6" onchange="strikeItem('cn6','cn6-label')"><label id="cn6-label" for="cn6">Enter correct VTE treatment dates (loading dose if applicable, maintenance dose &amp; duration)</label></li>
       <li><input type="checkbox" id="cn7" onchange="strikeItem('cn7','cn7-label')"><label id="cn7-label" for="cn7">"SCREENED BY PF ______" included in notes</label></li>
       <li><input type="checkbox" id="cn8" onchange="strikeItem('cn8','cn8-label')"><label id="cn8-label" for="cn8">DAPT / Triple therapy duration documented (if applicable)</label></li>
     </ul>
@@ -1675,8 +2181,8 @@ tr:last-child td { border-bottom: none; }
   </div>
 
   <div class="card">
-    <div class="card-title">🔄 Interactive Conversion Guide<a class="ref-sup" onclick="switchTab('refs')" title="See References">4</a></div>
-    <div class="form-grid" style="grid-template-columns:1fr 1fr;margin-bottom:14px">
+    <div class="card-title">🔄 Interactive Conversion Guide<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">4. Anticoagulant Conversion Chart (Jul 2024)</span>4</a></div>
+    <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:14px">
       <div class="form-group">
         <label>Convert FROM</label>
         <select id="conv-from" onchange="showConversion()">
@@ -1707,75 +2213,101 @@ tr:last-child td { border-bottom: none; }
     </div>
   </div>
 
-  <!-- TRACKER 1: Parenteral Bridging -->
-  <div class="card">
-    <div class="card-title">💉 Parenteral Bridging Tracker <span class="badge badge-amber">Dabigatran &amp; Edoxaban — VTE only</span><a class="ref-sup" onclick="switchTab('refs')" title="See References">4</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">5</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">7</a></div>
-    <div class="note-box" style="margin-bottom:12px">⚠️ <strong>Dabigatran and Edoxaban for VTE</strong> require ≥5 days of parenteral anticoagulant (LMWH/Heparin) <em>before</em> switching. Apixaban and Rivaroxaban have built-in lead-in doses — no parenteral needed.</div>
-    <div class="form-grid" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:12px">
-      <div class="form-group">
-        <label>DOAC to switch to</label>
-        <select id="tracker-drug" onchange="updateTracker()">
-          <option value="dabi">Dabigatran</option>
-          <option value="edox">Edoxaban</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Day 1 of Parenteral (date)</label>
-        <input type="date" id="tracker-day1" oninput="updateTracker()">
-      </div>
-      <div class="form-group">
-        <label>Today's Date</label>
-        <input type="date" id="tracker-today" oninput="updateTracker()">
-        <button class="btn btn-ghost no-print" onclick="document.getElementById('tracker-today').value=new Date().toISOString().split('T')[0];updateTracker()" style="margin-top:5px;font-size:0.72rem;padding:4px 10px">📅 Set Today</button>
-      </div>
-    </div>
-    <div class="tracker-grid" id="tracker-days">
-      <div class="tracker-day day-future"><div class="td-num">1</div><div class="td-label">Day 1</div></div>
-      <div class="tracker-day day-future"><div class="td-num">2</div><div class="td-label">Day 2</div></div>
-      <div class="tracker-day day-future"><div class="td-num">3</div><div class="td-label">Day 3</div></div>
-      <div class="tracker-day day-future"><div class="td-num">4</div><div class="td-label">Day 4</div></div>
-      <div class="tracker-day day-future"><div class="td-num">5</div><div class="td-label">Day 5 ✓</div></div>
-    </div>
-    <div id="tracker-status" style="font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid var(--border);margin-top:8px;display:none"></div>
-  </div>
 
-  <!-- TRACKER 2: DOAC Dose Date Planner -->
+
+  <!-- MERGED: DOAC Initiation Planner -->
   <div class="card">
-    <div class="card-title">📅 DOAC Dose Date Planner <span class="badge badge-blue">Loading → Maintenance</span><a class="ref-sup" onclick="switchTab('refs')" title="See References">4</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">5</a><a class="ref-sup" onclick="switchTab('refs')" title="See References">9</a></div>
-    <div class="note-box">Enter the drug, indication and start date — this planner will show the loading phase (if applicable) and the exact date to switch to maintenance dose.</div>
-    <div class="form-grid" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:12px;margin-top:12px">
-      <div class="form-group">
-        <label>Drug</label>
-        <select id="dp-drug" onchange="updateDosePlanner()">
-          <option value="">— Select —</option>
-          <option value="dabi">Dabigatran</option>
-          <option value="apix">Apixaban</option>
-          <option value="riva">Rivaroxaban</option>
-          <option value="edox">Edoxaban</option>
-        </select>
-      </div>
+    <div class="card-title">💉📅 DOAC Initiation Planner <span class="badge badge-blue">Parenteral Need · Bridging Tracker · Dose Timeline</span><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">4. Anticoagulant Conversion Chart (Jul 2024)</span>4</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">5. VTE / AF Flow Chart (Jun 2024)</span>5</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">7. Parenteral Anticoagulants for VTE</span>7</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">9. DOAC CME Slides</span>9</a></div>
+
+    <!-- Step 1: Indication + Drug -->
+    <div class="step-header"><span class="step-num">1</span> Select Indication &amp; DOAC</div>
+    <div class="form-grid" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
       <div class="form-group">
         <label>Indication</label>
-        <select id="dp-indication" onchange="updateDosePlanner()">
-          <option value="">— Select —</option>
-          <option value="AF">AF (SPAF)</option>
-          <option value="VTE">VTE Treatment (DVT/PE)</option>
+        <select id="ip-indication" onchange="updateInitPlanner()">
+          <option value="">— Select indication —</option>
+          <option value="AF">AF (Stroke Prevention / SPAF)</option>
+          <option value="VTE">VTE Treatment (DVT / PE)</option>
         </select>
       </div>
       <div class="form-group">
-        <label id="dp-start-label">Start Date</label>
-        <input type="date" id="dp-startdate" oninput="updateDosePlanner()">
-        <button class="btn btn-ghost no-print" onclick="document.getElementById('dp-startdate').value=new Date().toISOString().split('T')[0];updateDosePlanner()" style="margin-top:5px;font-size:0.72rem;padding:4px 10px">📅 Set Today</button>
+        <label>DOAC</label>
+        <select id="ip-drug" onchange="updateInitPlanner()">
+          <option value="">— Select DOAC —</option>
+          <option value="dabi">Dabigatran (Pradaxa®)</option>
+          <option value="apix">Apixaban (Eliquis®)</option>
+          <option value="riva">Rivaroxaban (Xarelto®)</option>
+          <option value="edox">Edoxaban (Lixiana®)</option>
+        </select>
       </div>
     </div>
-    <div id="dp-placeholder" style="text-align:center;padding:20px;color:var(--text-muted);font-size:0.83rem">Select drug, indication and start date to generate the dose timeline.</div>
-    <div id="dp-timeline" style="display:none"></div>
+
+    <!-- Parenteral required branch -->
+    <div id="ip-parenteral-section" style="display:none">
+      <div id="ip-parenteral-alert" class="alert alert-info" style="margin-bottom:14px">
+        <span class="alert-icon">💉</span>
+        <div id="ip-parenteral-msg"></div>
+      </div>
+      <div class="step-header"><span class="step-num">2</span> Parenteral Agent &amp; Start Date</div>
+      <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:14px">
+        <div class="form-group">
+          <label>Parenteral Agent</label>
+          <select id="ip-parenteral-agent" onchange="updateInitPlanner()">
+            <option value="clexane">Enoxaparin (Clexane®) — LMWH</option>
+            <option value="arixtra">Fondaparinux (Arixtra®)</option>
+            <option value="ufh">Heparin (IV UFH)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Day 1 of Parenteral</label>
+          <input type="date" id="ip-parenteral-day1" oninput="updateInitPlanner()">
+          <button class="btn btn-ghost no-print" onclick="document.getElementById('ip-parenteral-day1').value=new Date().toISOString().split('T')[0];updateInitPlanner()" style="margin-top:5px;font-size:0.72rem;padding:4px 10px">📅 Set Today</button>
+        </div>
+      </div>
+
+      <!-- Live Days 1–5 tracker -->
+      <div id="ip-tracker-section" style="display:none">
+        <div class="section-label">Parenteral Day Tracker</div>
+        <div class="tracker-grid" id="ip-tracker-days">
+          <div class="tracker-day day-future"><div class="td-num">1</div><div class="td-label">Day 1</div></div>
+          <div class="tracker-day day-future"><div class="td-num">2</div><div class="td-label">Day 2</div></div>
+          <div class="tracker-day day-future"><div class="td-num">3</div><div class="td-label">Day 3</div></div>
+          <div class="tracker-day day-future"><div class="td-num">4</div><div class="td-label">Day 4</div></div>
+          <div class="tracker-day day-future"><div class="td-num">5</div><div class="td-label">Day 5 ✓</div></div>
+        </div>
+        <div id="ip-tracker-status" style="display:none;font-size:0.85rem;padding:10px 14px;border-radius:8px;margin-bottom:14px"></div>
+      </div>
+    </div>
+
+    <!-- No parenteral branch -->
+    <div id="ip-noparenteral-section" style="display:none">
+      <div id="ip-noparenteral-alert" class="alert alert-success" style="margin-bottom:14px">
+        <span class="alert-icon">✅</span>
+        <div id="ip-noparenteral-msg"></div>
+      </div>
+      <div class="step-header"><span class="step-num">2</span> DOAC Start Date</div>
+      <div class="form-group" style="max-width:280px;margin-bottom:16px">
+        <label id="ip-doac-date-label">DOAC Start Date</label>
+        <input type="date" id="ip-doac-startdate" oninput="updateInitPlanner()">
+        <button class="btn btn-ghost no-print" onclick="document.getElementById('ip-doac-startdate').value=new Date().toISOString().split('T')[0];updateInitPlanner()" style="margin-top:5px;font-size:0.72rem;padding:4px 10px">📅 Set Today</button>
+      </div>
+    </div>
+
+    <!-- Placeholder -->
+    <div id="ip-placeholder" style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.83rem">Select indication and DOAC above to begin.</div>
+
+    <!-- Unified timeline output -->
+    <div id="ip-timeline" style="display:none">
+      <div class="step-header" style="margin-top:4px"><span class="step-num">3</span> Dose &amp; Switch Timeline</div>
+      <div id="ip-timeline-content"></div>
+      <div style="font-size:0.73rem;color:var(--text-muted);margin-top:8px">⚠️ Dates are based on entered start. Always confirm with prescriber. Treatment duration (min. 3 months for VTE) guided by clinical indication.</div>
+    </div>
   </div>
 
   <!-- Full Conversion Table -->
 
   <div class="card">
-    <div class="card-title">📊 Full Anticoagulant Conversion Reference<a class="ref-sup" onclick="switchTab('refs')" title="See References">4</a></div>
+    <div class="card-title">📊 Full Anticoagulant Conversion Reference<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">4. Anticoagulant Conversion Chart (Jul 2024)</span>4</a></div>
     <div style="overflow-x:auto">
     <table>
       <tr>
@@ -1836,7 +2368,7 @@ tr:last-child td { border-bottom: none; }
       </tr>
     </table>
     </div>
-    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px">References: <a class="ref-sup" onclick="switchTab('refs')" title="See References">4</a> AC-MTAC Protocol 2020 | <a class="ref-sup" onclick="switchTab('refs')" title="See References">5</a> VTE/AF Flowchart | Lexicomp, UpToDate, Lixiana PI. For internal circulation only.</div>
+    <div style="font-size:0.75rem;color:var(--text-muted);margin-top:8px">References: <a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">4. Anticoagulant Conversion Chart (Jul 2024)</span>4</a> AC-MTAC Protocol 2020 | <a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">5. VTE / AF Flow Chart (Jun 2024)</span>5</a> VTE/AF Flowchart | Lexicomp, UpToDate, Lixiana PI. For internal circulation only.</div>
   </div>
 </div>
 
@@ -1901,18 +2433,28 @@ function resetHasBled() {
 }
 
 // ============ SCREENING ============
-function runScreening() {
+// ============ SHARED SCREENING COMPUTATION ============
+function computeScreening(drugOverride) {
   const indication = document.getElementById('s-indication').value;
-  const drug = document.getElementById('s-drug').value;
+  const drug = drugOverride || document.getElementById('s-drug').value;
   const age = parseFloat(document.getElementById('s-age').value);
   const crcl = parseFloat(document.getElementById('s-crcl').value);
   const weight = parseFloat(document.getElementById('s-weight').value);
   const bmi = parseFloat(document.getElementById('s-bmi').value);
   const scr = parseFloat(document.getElementById('s-scr').value);
-  const alt = document.getElementById('s-alt').value;
+  const altRaw = parseFloat(document.getElementById('s-alt-raw').value);
+  const astRaw = parseFloat(document.getElementById('s-ast-raw').value);
+  const platelet = parseFloat(document.getElementById('s-platelet').value);
   const cpugh = document.getElementById('s-cpugh').value;
+  // Derive LFT tier from the higher of ALT/AST
+  const lftMax = Math.max(isNaN(altRaw)?0:altRaw, isNaN(astRaw)?0:astRaw);
+  const lftXuln = lftMax / 35;
+  const alt = (isNaN(altRaw) && isNaN(astRaw)) ? '' : lftXuln >= 3 ? '3plus' : lftXuln >= 2 ? '2-3' : 'normal';
   const inr = parseFloat(document.getElementById('s-inr').value);
   const supply = document.getElementById('s-supply').value;
+  const tbiliEl = document.getElementById('s-tbili');
+  const tbili = tbiliEl ? parseFloat(tbiliEl.value) : NaN;
+  const tbiliXuln = tbili / 15;
 
   const ci_preg = document.getElementById('ci-pregnancy').checked;
   const ci_lact = document.getElementById('ci-lactation').checked;
@@ -1944,7 +2486,7 @@ function runScreening() {
   if (!isNaN(age)) {
     if (age < 18) {
       if (drug === 'dabi' || drug === 'apix') errors.push(`⛔ Age <18 years: Dabigatran and Apixaban are contraindicated. Consider Rivaroxaban or Edoxaban (off-label, specialist input required).`);
-      else warnings.push(`⚠️ Age <18 years: Off-label use. Ensure discussion with specialist. See pediatric dosing references.`);
+      else warnings.push(`⚠️ Age <18 years: Off-label use in adolescents. Ensure discussion with specialist before initiating.`);
     }
     if (!isNaN(crcl)) {
       if (age >= 80 && (drug === 'dabi')) doseRec.push(`💊 Dabigatran: Age ≥80 years → Reduce to <strong>110mg BD</strong> (standard dose adjustment).`);
@@ -1972,10 +2514,18 @@ function runScreening() {
     }
     // Apixaban
     if (drug === 'apix') {
-      if (crcl < 15 && !sp_hd) { errors.push(`⛔ Apixaban CONTRAINDICATED: CrCl ${crcl} ml/min (<15 ml/min).`); blocked = true; }
-      else if (crcl >= 15 && crcl < 30) { warnings.push(`⚠️ Apixaban: CrCl ${crcl} ml/min (15–29 ml/min) → Use with caution. For SPAF, 2.5mg BD.`); }
-      if (sp_hd && indication === 'AF') info.push(`ℹ️ Apixaban on hemodialysis: 2.5mg BD for SPAF is US-FDA approved (based on PK studies). Discuss with specialist.`);
-      if (sp_hd && indication !== 'AF') { errors.push(`⛔ Apixaban: Hemodialysis — only approved for SPAF indication on dialysis. Not for VTE.`); }
+      if (crcl < 15 && !sp_hd) {
+        if (indication === 'AF') {
+          // Don't hard-block — HD exception exists for SPAF
+          warnings.push(`⚠️ Apixaban: CrCl ${crcl} ml/min (<15 ml/min) — generally contraindicated at this level. <strong>Exception: if patient is on regular haemodialysis</strong>, Apixaban 2.5mg BD for SPAF is US-FDA approved (PK-based). 👉 Tick <em>"Hemodialysis / CAPD"</em> in the Cautions section below to confirm and update this recommendation.`);
+        } else {
+          errors.push(`⛔ Apixaban CONTRAINDICATED: CrCl ${crcl} ml/min (<15 ml/min).`); blocked = true;
+        }
+      } else if (crcl >= 15 && crcl < 30) {
+        warnings.push(`⚠️ Apixaban: CrCl ${crcl} ml/min (15–29 ml/min) → Use with caution. For SPAF, consider 2.5mg BD.`);
+      }
+      if (sp_hd && indication === 'AF') doseRec.push(`💊 Apixaban on haemodialysis (SPAF): Dose as <strong>2.5mg BD</strong> — US-FDA approved based on PK studies. Discuss with specialist before initiating.`);
+      if (sp_hd && indication !== 'AF') { errors.push(`⛔ Apixaban: Haemodialysis — use for SPAF only. Not approved for VTE on dialysis.`); blocked = true; }
     }
     // Rivaroxaban
     if (drug === 'riva') {
@@ -2001,8 +2551,25 @@ function runScreening() {
     if (cpugh === 'B' && (drug === 'dabi' || drug === 'apix')) warnings.push(`⚠️ Child-Pugh B: ${drug === 'dabi' ? 'Dabigatran' : 'Apixaban'} — use with caution.`);
   }
   if (alt === '2-3' || alt === '3plus') {
-    if (alt === '3plus') errors.push(`⛔ ALT/AST >3× ULN: All DOACs not recommended. Wait until LFT normalises (<2× ULN). Document in Pharmacist Note.`);
-    else warnings.push(`⚠️ ALT/AST 2–3× ULN: Use with caution. Rivaroxaban/Edoxaban — no data. Dabigatran — not recommended if >2 ULN. Recheck LFT.`);
+    if (alt === '3plus') {
+      // >3× ULN
+      if (drug === 'dabi') { errors.push(`⛔ Dabigatran: ALT/AST >3× ULN — not recommended. Recheck LFT.`); blocked = true; }
+      else if (drug === 'apix') { errors.push(`⛔ Apixaban: ALT/AST >3× ULN — not recommended. Recheck LFT.`); blocked = true; }
+      else if (drug === 'riva') warnings.push(`⚠️ Rivaroxaban: ALT/AST >3× ULN — <strong>no safety data</strong>. Use with extreme caution at prescriber's own risk. Recheck LFT before proceeding.`);
+      else if (drug === 'edox') warnings.push(`⚠️ Edoxaban: ALT/AST >3× ULN — <strong>no safety data</strong>. Use with extreme caution at prescriber's own risk. Recheck LFT.`);
+      else errors.push(`⛔ ALT/AST >3× ULN: Not recommended. Recheck LFT.`);
+    } else {
+      // 2–3× ULN
+      if (drug === 'dabi') { errors.push(`⛔ Dabigatran: ALT/AST 2–3× ULN — <strong>not recommended</strong> when ALT/AST >2× ULN. Do not proceed. Recheck LFT.`); blocked = true; }
+      else if (drug === 'apix') warnings.push(`⚠️ Apixaban: ALT/AST 2–3× ULN — use with caution. Monitor LFT closely.`);
+      else if (drug === 'riva') warnings.push(`⚠️ Rivaroxaban: ALT/AST 2–3× ULN — <strong>no safety data</strong>. Use with caution at prescriber's own risk. Recheck LFT.`);
+      else if (drug === 'edox') warnings.push(`⚠️ Edoxaban: ALT/AST 2–3× ULN — <strong>no safety data</strong>. Use with caution at prescriber's own risk. Recheck LFT.`);
+      else warnings.push(`⚠️ ALT/AST 2–3× ULN: Use with caution. Recheck LFT.`);
+    }
+  }
+  // Edoxaban: T.Bilirubin ≥1.5× ULN
+  if (drug === 'edox' && !isNaN(tbili) && tbiliXuln >= 1.5) {
+    warnings.push(`⚠️ Edoxaban: Total Bilirubin ${tbili} µmol/L (${(tbiliXuln).toFixed(1)}× ULN ≥1.5× ULN) — <strong>no safety data</strong>. Use with caution at prescriber's own risk.`);
   }
 
   // WEIGHT
@@ -2010,7 +2577,7 @@ function runScreening() {
     if (weight < 50) warnings.push(`⚠️ Low body weight (${weight}kg <50kg): All DOACs — increased bleeding risk. Use with caution.`);
     if (drug === 'dabi' && ((!isNaN(bmi) && bmi > 40) || weight > 120)) { errors.push(`⛔ Dabigatran: BMI >40 or weight >120kg — AVOID. Suggest alternative DOAC.`); blocked = true; }
     else if ((!isNaN(bmi) && bmi > 40) || weight > 120) warnings.push(`⚠️ Obesity (BMI >40 or >120kg): Reduced drug exposure. Monitor closely.`);
-    if (!isNaN(bmi) && bmi >= 40 && bmi < 50 && drug === 'edox' && (indication === 'VTE' || indication === 'VTE-prev')) { errors.push(`⛔ Edoxaban: BMI 40–49 kg/m² for VTE — AVOID.`); blocked = true; }
+    if (!isNaN(bmi) && bmi >= 40 && bmi < 50 && drug === 'edox' && indication === 'VTE') { errors.push(`⛔ Edoxaban: BMI 40–49 kg/m² for VTE — AVOID.`); blocked = true; }
     if (!isNaN(weight) && weight <= 60 && drug === 'edox') doseRec.push(`💊 Edoxaban: Weight ≤60kg → Reduce to <strong>30mg OD</strong>.`);
   }
 
@@ -2035,8 +2602,19 @@ function runScreening() {
     else info.push(`ℹ️ Cancer-associated VTE: ${drug === 'apix' || drug === 'riva' || drug === 'edox' ? 'Recommended (off-label).' : ''} Note: LMWH preferred for GI/GU-related cancer.`);
   }
 
-  // THROMBOCYTOPENIA
-  if (sp_thrombo) warnings.push(`⚠️ Thrombocytopenia: Increased bleeding risk with all anticoagulants. Ensure specialist review.`);
+  // THROMBOCYTOPENIA (checkbox OR platelet count)
+  const plateletLow = !isNaN(platelet) && platelet < 150;
+  if (sp_thrombo || plateletLow) {
+    if (!isNaN(platelet) && platelet < 50) {
+      errors.push(`⛔ Severe Thrombocytopenia: Platelet ${platelet} ×10⁹/L (<50) — anticoagulation generally contraindicated. Specialist review mandatory.`); blocked = true;
+    } else if (!isNaN(platelet) && platelet < 100) {
+      warnings.push(`⚠️ Thrombocytopenia: Platelet ${platelet} ×10⁹/L (50–99) — significantly increased bleeding risk. Specialist review required before initiating DOAC.`);
+    } else if (plateletLow) {
+      warnings.push(`⚠️ Thrombocytopenia: Platelet ${platelet} ×10⁹/L (<150) — increased bleeding risk. Use with caution; specialist review advised.`);
+    } else {
+      warnings.push(`⚠️ Thrombocytopenia: Increased bleeding risk with all anticoagulants. Ensure specialist review.`);
+    }
+  }
 
   // INR
   if (!isNaN(inr) && inr > 0) {
@@ -2059,18 +2637,50 @@ function runScreening() {
   if (!isNaN(age) && age < 18 && drug === '') warnings.push(`⚠️ Age <18 years: Off-label use for all DOACs. Specialist input required.`);
 
   // SUPPLY REMINDER
+  if (supply === 'quota') warnings.push(`⚠️ Formulary Quota: Requires written consent/approval from <strong>HOD Medical (Dr Benedict Sim)</strong> or <strong>Dr Sapiah / Dr Yusniza / Dr Hafiz</strong> before dispensing. Ensure approval is documented.`);
   if (supply === 'self') info.push(`ℹ️ Self-purchase: Ensure patient has stock BEFORE counseling. Verify correct DOAC name and strength.`);
 
-  // RENDER RESULTS
+  return { drug, indication, blocked, errors, warnings, info, doseRec };
+}
+
+// ============ SCREEN MODE (original rendering) ============
+function runScreening() {
+  if (currentMode === 'find') { runFindMode(); return; }
+  // Validate required fields in Screen mode
+  const _ind = document.getElementById('s-indication').value;
+  const _drg = document.getElementById('s-drug').value;
+  const _age = document.getElementById('s-age').value;
+  const _crcl= document.getElementById('s-crcl').value;
+  const _wt  = document.getElementById('s-weight').value;
+  const _alt  = document.getElementById('s-alt-raw').value;
+  const _ast  = document.getElementById('s-ast-raw').value;
+  const _plt  = document.getElementById('s-platelet').value;
+  const _cp   = document.getElementById('s-cpugh').value;
+  const screenMissing = [];
+  if (!_ind)  screenMissing.push('Indication');
+  if (!_drg)  screenMissing.push('DOAC Prescribed');
+  if (!_age)  screenMissing.push('Age');
+  if (!_crcl) screenMissing.push('CrCl / eGFR');
+  if (!_wt)   screenMissing.push('Body Weight');
+  if (!_alt)  screenMissing.push('ALT (U/L)');
+  if (!_ast)  screenMissing.push('AST (U/L)');
+  if (!_cp)   screenMissing.push('Child-Pugh Class');
+  if (!_plt)  screenMissing.push('Platelet Count');
+  if (screenMissing.length > 0) {
+    document.getElementById('screening-placeholder').style.display = 'none';
+    document.getElementById('screening-results').style.display = 'block';
+    document.getElementById('results-body').innerHTML = `<div class="alert alert-warning"><span class="alert-icon">📋</span><div><strong>Please fill in these required fields first:</strong><ul style="margin:6px 0 0 16px;line-height:1.8">${screenMissing.map(m=>`<li>${m}</li>`).join('')}</ul></div></div>`;
+    return;
+  }
+  const r = computeScreening();
+  const { drug, indication, blocked, errors, warnings, info, doseRec } = r;
+
   const placeholder = document.getElementById('screening-placeholder');
   const results = document.getElementById('screening-results');
-
   placeholder.style.display = 'none';
   results.style.display = 'block';
 
   let html = '';
-
-  // Overall status
   if (!indication || !drug) {
     html += `<div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>Please select indication and DOAC to begin screening.</div></div>`;
   } else if (blocked) {
@@ -2080,43 +2690,232 @@ function runScreening() {
   } else if (errors.length === 0 && warnings.length === 0) {
     html += `<div class="alert alert-success"><span class="alert-icon">✅</span><div><strong>No contraindications detected</strong> based on provided information. Proceed with counseling.</div></div>`;
   }
-
   if (errors.length > 0) {
     html += `<div style="margin-bottom:12px"><div class="section-label" style="color:var(--danger)">⛔ Contraindications / Hard Stops</div>`;
     errors.forEach(e => html += `<div class="alert alert-danger" style="margin-bottom:6px"><span class="alert-icon">🚫</span><div>${e}</div></div>`);
     html += `</div>`;
   }
-
   if (doseRec.length > 0) {
     html += `<div style="margin-bottom:12px"><div class="section-label" style="color:var(--blue)">💊 Dose Recommendations</div>`;
     doseRec.forEach(d => html += `<div class="alert alert-info" style="margin-bottom:6px"><span class="alert-icon">💊</span><div>${d}</div></div>`);
     html += `</div>`;
   }
-
   if (warnings.length > 0) {
     html += `<div style="margin-bottom:12px"><div class="section-label" style="color:var(--warning)">⚠️ Cautions / Precautions</div>`;
     warnings.forEach(w => html += `<div class="alert alert-warning" style="margin-bottom:6px"><span class="alert-icon">⚠️</span><div>${w}</div></div>`);
     html += `</div>`;
   }
-
   if (info.length > 0) {
     html += `<div><div class="section-label">ℹ️ Information / Reminders</div>`;
     info.forEach(i => html += `<div class="alert alert-info" style="margin-bottom:6px"><span class="alert-icon">ℹ️</span><div>${i}</div></div>`);
     html += `</div>`;
   }
-
-  if (html === '') {
-    html = `<div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>Fill in patient details to generate screening alerts.</div></div>`;
-  }
-
+  if (html === '') html = `<div class="alert alert-info"><span class="alert-icon">ℹ️</span><div>Fill in patient details to generate screening alerts.</div></div>`;
   document.getElementById('results-body').innerHTML = html;
 }
 
+// ============ MODE TOGGLE ============
+let currentMode = 'screen';
+function setScreenMode(mode) {
+  currentMode = mode;
+  const btnScreen = document.getElementById('mode-btn-screen');
+  const btnFind   = document.getElementById('mode-btn-find');
+  const drugBanner= document.getElementById('s-drug-wrapper');
+  const notice    = document.getElementById('find-mode-notice');
+  const ciNone    = document.getElementById('ci-none-row');
+  const spNone    = document.getElementById('sp-none-row');
+
+  if (mode === 'screen') {
+    btnScreen.style.background = '#be185d'; btnScreen.style.color = 'white';
+    btnFind.style.background = '#fce7f3'; btnFind.style.color = '#9d174d'; btnFind.style.borderLeft = '1.5px solid #f9a8d4';
+    if (drugBanner) drugBanner.style.display = '';
+    notice.style.display = 'none';
+    ciNone.style.display = 'none'; spNone.style.display = 'none';
+    document.getElementById('find-results').style.display = 'none';
+    document.getElementById('run-btn').textContent = '🔍 Run Screening';
+    document.getElementById('supply-group').style.display = '';
+    toggleTbiliField();
+  } else {
+    btnFind.style.background = '#be185d'; btnFind.style.color = 'white'; btnFind.style.borderLeft = 'none';
+    btnScreen.style.background = '#fce7f3'; btnScreen.style.color = '#9d174d';
+    if (drugBanner) drugBanner.style.display = 'none';
+    notice.style.display = 'flex';
+    ciNone.style.display = ''; spNone.style.display = '';
+    document.getElementById('screening-results').style.display = 'none';
+    document.getElementById('screening-placeholder').style.display = 'none';
+    document.getElementById('find-results').style.display = 'block';
+    document.getElementById('run-btn').textContent = '💡 Generate Recommendation';
+    document.getElementById('supply-group').style.display = 'none';
+    document.getElementById('tbili-group').style.display = '';
+    runFindMode();
+  }
+}
+
+function onNoneCheck(section) {
+  const isChecked = document.getElementById(section + '-none').checked;
+  const ids = section === 'ci'
+    ? ['ci-pregnancy','ci-lactation','ci-valve','ci-bleeding','ci-allergy']
+    : ['sp-hd','sp-ngtube','sp-thrombocytopenia','sp-cancer','sp-compliancebd','sp-phenytoin','sp-verapamil','sp-cyclosporin'];
+  if (isChecked) ids.forEach(id => { document.getElementById(id).checked = false; });
+  if (currentMode === 'find') runFindMode();
+  else runScreening();
+}
+
+// ============ FIND MODE ============
+function runFindMode() {
+  const indication = document.getElementById('s-indication').value;
+  const age    = parseFloat(document.getElementById('s-age').value);
+  const crcl   = parseFloat(document.getElementById('s-crcl').value);
+  const weight = parseFloat(document.getElementById('s-weight').value);
+  const bmi    = parseFloat(document.getElementById('s-bmi').value);
+  const scr    = parseFloat(document.getElementById('s-scr').value);
+  const ciNone = document.getElementById('ci-none').checked;
+  const spNone = document.getElementById('sp-none').checked;
+  const anyCiChecked = ['ci-pregnancy','ci-lactation','ci-valve','ci-bleeding','ci-allergy'].some(id => document.getElementById(id).checked);
+  const anySpChecked = ['sp-hd','sp-ngtube','sp-thrombocytopenia','sp-cancer','sp-compliancebd','sp-phenytoin','sp-verapamil','sp-cyclosporin'].some(id => document.getElementById(id).checked);
+  const ciConfirmed = ciNone || anyCiChecked;
+  const spConfirmed = spNone || anySpChecked;
+
+  const container = document.getElementById('find-results-body');
+  document.getElementById('find-results').style.display = 'block';
+
+  // Validation
+  const missing = [];
+  const _fAlt = document.getElementById('s-alt-raw').value;
+  const _fAst = document.getElementById('s-ast-raw').value;
+  const _fPlt = document.getElementById('s-platelet').value;
+  const _fCp  = document.getElementById('s-cpugh').value;
+  if (!indication)    missing.push('Indication');
+  if (isNaN(age))     missing.push('Age');
+  if (isNaN(crcl))    missing.push('CrCl / eGFR');
+  if (isNaN(weight))  missing.push('Body Weight');
+  if (!_fAlt)         missing.push('ALT (U/L)');
+  if (!_fAst)         missing.push('AST (U/L)');
+  if (!_fCp)          missing.push('Child-Pugh Class');
+  if (!_fPlt)         missing.push('Platelet Count');
+  if (!ciConfirmed)   missing.push('Contraindications (tick items or confirm "None")');
+  if (!spConfirmed)   missing.push('Cautions & Special Profiles (tick items or confirm "None")');
+
+  if (missing.length > 0) {
+    container.innerHTML = `<div class="card"><div class="alert alert-warning"><span class="alert-icon">📋</span><div><strong>Please complete the following fields before generating:</strong><ul style="margin:6px 0 0 16px;line-height:1.8">${missing.map(m=>`<li>${m}</li>`).join('')}</ul></div></div></div>`;
+    return;
+  }
+
+  // Run for all 4 drugs
+  const drugNames  = { dabi:'Dabigatran',  apix:'Apixaban', riva:'Rivaroxaban', edox:'Edoxaban' };
+  const drugBrands = { dabi:'Pradaxa®',    apix:'Eliquis®', riva:'Xarelto®',    edox:'Lixiana®' };
+  const drugColors = { dabi:'#1e3a5f',     apix:'#065f46',  riva:'#7c2d12',     edox:'#4c1d95'  };
+  const drugIcons  = { dabi:'🔷',          apix:'🟢',       riva:'🔴',          edox:'🟣'        };
+
+  // Get base dose for each drug + indication
+  function getBaseDose(drug, indication, age, crcl, weight, scr) {
+    const doses = {
+      dabi: {
+        AF:  crcl < 50 ? '110 mg BD' : age >= 80 ? '110 mg BD' : '150 mg BD',
+        VTE: crcl < 50 ? '110 mg BD (after ≥5 days parenteral)' : '150 mg BD (after ≥5 days parenteral)'
+      },
+      apix: {
+        AF: (()=>{
+          let c=0; if(age>=80)c++; if(!isNaN(weight)&&weight<=60)c++; if(!isNaN(scr)&&scr>=133)c++;
+          return c>=2 ? '2.5 mg BD' : '5 mg BD';
+        })(),
+        VTE: '10 mg BD × 7 days, then 5 mg BD'
+      },
+      riva: {
+        AF:  crcl >= 15 && crcl < 50 ? '15 mg OD with food' : '20 mg OD with food',
+        VTE: '15 mg BD × 21 days (with food), then 20 mg OD'
+      },
+      edox: {
+        AF:  (crcl<=50||(!isNaN(weight)&&weight<=60)) ? '30 mg OD' : '60 mg OD',
+        VTE: (crcl<=50||(!isNaN(weight)&&weight<=60)) ? '30 mg OD (after ≥5 days parenteral)' : '60 mg OD (after ≥5 days parenteral)'
+      }
+    };
+    const indKey = indication;
+    return (doses[drug] && doses[drug][indKey]) || '—';
+  }
+
+  const results = ['dabi','apix','riva','edox'].map(drug => {
+    const r = computeScreening(drug);
+    const dose = getBaseDose(drug, indication, age, crcl, weight, scr);
+    let status, statusBg, statusColor, statusIcon;
+    if (r.blocked) {
+      status = 'Contraindicated'; statusBg = 'var(--danger-light)'; statusColor = 'var(--danger)'; statusIcon = '⛔';
+    } else if (r.errors.length > 0) {
+      status = 'Not Recommended'; statusBg = 'var(--danger-light)'; statusColor = 'var(--danger)'; statusIcon = '⛔';
+    } else if (r.warnings.length > 0) {
+      status = 'Use with Caution'; statusBg = 'var(--warning-light)'; statusColor = 'var(--warning)'; statusIcon = '⚠️';
+    } else {
+      status = 'Suitable'; statusBg = 'var(--success-light)'; statusColor = 'var(--success)'; statusIcon = '✅';
+    }
+    return { drug, status, statusBg, statusColor, statusIcon, dose, errors: r.errors, warnings: r.warnings, info: r.info, doseRec: r.doseRec };
+  });
+
+  // Sort: suitable → caution → contraindicated
+  const order = ['Suitable','Use with Caution','Not Recommended','Contraindicated'];
+  results.sort((a,b) => order.indexOf(a.status) - order.indexOf(b.status));
+
+  // Build clinical summary
+  const crclLabel = isNaN(crcl) ? '—' : crcl >= 90 ? `${crcl} ml/min (Normal)` : crcl >= 60 ? `${crcl} ml/min (Mild impairment)` : crcl >= 30 ? `${crcl} ml/min (Moderate impairment)` : crcl >= 15 ? `${crcl} ml/min (Severe impairment)` : `${crcl} ml/min (ESRF)`;
+  const indicNames = { AF:'AF — Stroke Prevention (SPAF)', VTE:'VTE Treatment (DVT/PE)' };
+  const altRaw = parseFloat(document.getElementById('s-alt-raw').value);
+  const astRaw = parseFloat(document.getElementById('s-ast-raw').value);
+  const cpugh = document.getElementById('s-cpugh').value;
+  const platelet = parseFloat(document.getElementById('s-platelet').value);
+  const inr = parseFloat(document.getElementById('s-inr').value);
+
+  const summaryItems = [
+    ['Indication', indicNames[indication] || indication],
+    ['Age', `${age} years`],
+    ['Body Weight', `${weight} kg${!isNaN(bmi) ? ' · BMI ' + bmi + ' kg/m²' : ''}`],
+    ['Renal Function', crclLabel],
+    ...(!isNaN(scr) ? [['Serum Creatinine', `${scr} µmol/L`]] : []),
+    ...(cpugh ? [['Child-Pugh', `Class ${cpugh}`]] : []),
+    ...(!isNaN(altRaw)||!isNaN(astRaw) ? [['LFT (ALT/AST)', `${isNaN(altRaw)?'—':altRaw} / ${isNaN(astRaw)?'—':astRaw} U/L`]] : []),
+    ...((() => { const t=parseFloat(document.getElementById('s-tbili')?.value); return !isNaN(t) ? [['T.Bilirubin', `${t} µmol/L (${(t/17).toFixed(1)}× ULN)`]] : []; })()),
+    ...(!isNaN(platelet) ? [['Platelet', `${platelet} ×10⁹/L`]] : []),
+    ...(!isNaN(inr) ? [['INR', inr]] : []),
+    ['Contraindications', ciNone ? 'None confirmed' : ['ci-pregnancy','ci-lactation','ci-valve','ci-bleeding','ci-allergy'].filter(id=>document.getElementById(id).checked).map(id=>({'ci-pregnancy':'Pregnancy','ci-lactation':'Lactation','ci-valve':'Mechanical Valve','ci-bleeding':'Active Bleeding','ci-allergy':'DOAC Allergy'})[id]).join(', ') || 'None'],
+    ['Special Profiles', spNone ? 'None confirmed' : ['sp-hd','sp-ngtube','sp-thrombocytopenia','sp-cancer','sp-compliancebd','sp-phenytoin','sp-verapamil','sp-cyclosporin'].filter(id=>document.getElementById(id).checked).map(id=>({'sp-hd':'HD/CAPD','sp-ngtube':'NG Tube','sp-thrombocytopenia':'Thrombocytopenia','sp-cancer':'Cancer VTE','sp-compliancebd':'Poor BD Compliance','sp-phenytoin':'Phenytoin/Rifampicin','sp-verapamil':'Verapamil/Amiodarone','sp-cyclosporin':'Cyclosporin/Dronedarone'})[id]).join(', ') || 'None'],
+  ];
+
+  let html = `<div class="card" style="border-top:3px solid var(--navy)">
+    <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.88rem;color:var(--navy);margin-bottom:12px">📋 Clinical Summary</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:4px 16px">
+      ${summaryItems.map(([k,v])=>`<div style="display:flex;gap:6px;font-size:0.82rem;padding:3px 0;border-bottom:1px solid var(--bg)"><span style="color:var(--text-muted);min-width:130px;flex-shrink:0">${k}</span><span style="font-weight:600;color:var(--text)">${v}</span></div>`).join('')}
+    </div>
+  </div>`;
+
+  // Drug comparison table
+  html += `<div class="card" style="margin-top:8px">
+    <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.88rem;color:var(--navy);margin-bottom:12px">💊 DOAC Suitability &amp; Dose Recommendation</div>
+    <div style="overflow-x:auto"><table>
+      <tr><th style="width:150px">DOAC</th><th style="width:140px">Status</th><th>Dose</th><th>Key Notes</th></tr>
+      ${results.map(r => {
+        const allNotes = [...r.errors, ...r.doseRec, ...r.warnings, ...r.info];
+        const notesHtml = allNotes.length
+          ? allNotes.map(n => `<div style="font-size:0.8rem;line-height:1.5;margin-bottom:3px">${n.replace(/⛔|⚠️|💊|ℹ️/g,'').trim()}</div>`).join('')
+          : `<span style="color:var(--text-muted);font-size:0.8rem">No additional notes.</span>`;
+        return `<tr style="background:${r.statusBg}20">
+          <td><strong style="color:${drugColors[r.drug]}">${drugIcons[r.drug]} ${drugNames[r.drug]}</strong><br><small style="color:var(--text-muted)">${drugBrands[r.drug]}</small></td>
+          <td><span style="display:inline-block;background:${r.statusBg};color:${r.statusColor};border:1px solid ${r.statusColor}40;padding:4px 8px;border-radius:5px;font-family:'Sora',sans-serif;font-weight:700;font-size:0.75rem">${r.statusIcon} ${r.status}</span></td>
+          <td style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.82rem;color:${drugColors[r.drug]}">${r.status==='Contraindicated'||r.status==='Not Recommended' ? '<span style="color:var(--danger)">—</span>' : r.dose}</td>
+          <td>${notesHtml}</td>
+        </tr>`;
+      }).join('')}
+    </table></div>
+    <div style="font-size:0.73rem;color:var(--text-muted);margin-top:10px">⚠️ This recommendation is based on information provided. Always confirm with the prescriber. Doses shown are starting recommendations — individual patient factors may require further adjustment.</div>
+  </div>`;
+
+  container.innerHTML = html;
+}
+
 function resetScreening() {
-  ['s-indication','s-drug','s-alt','s-cpugh','s-supply'].forEach(id => document.getElementById(id).value = '');
-  ['s-age','s-crcl','s-weight','s-bmi','s-scr','s-inr'].forEach(id => document.getElementById(id).value = '');
-  ['ci-pregnancy','ci-lactation','ci-valve','ci-bleeding','ci-allergy',
-   'sp-hd','sp-ngtube','sp-thrombocytopenia','sp-cancer','sp-compliancebd',
+  ['s-indication','s-drug','s-cpugh','s-supply'].forEach(id => document.getElementById(id).value = '');
+  ['s-age','s-crcl','s-weight','s-bmi','s-scr','s-inr','s-alt-raw','s-ast-raw','s-platelet','s-tbili'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  ['alt-tier-badge','ast-tier-badge','platelet-badge','tbili-badge'].forEach(id => { const el = document.getElementById(id); if(el) el.style.display='none'; });
+  toggleTbiliField();
+  ['ci-pregnancy','ci-lactation','ci-valve','ci-bleeding','ci-allergy','ci-none',
+   'sp-hd','sp-ngtube','sp-thrombocytopenia','sp-cancer','sp-compliancebd','sp-none',
    'sp-phenytoin','sp-verapamil','sp-cyclosporin'].forEach(id => document.getElementById(id).checked = false);
   document.getElementById('screening-results').style.display = 'none';
   document.getElementById('screening-placeholder').style.display = 'block';
@@ -2224,8 +3023,8 @@ function calcInlineCrCl() {
     return;
   }
 
-  let crcl = ((140 - age) * wt) / (0.814 * scr);
-  if (sex === 'F') crcl *= 0.85;
+  const F = (sex === 'M') ? 1.23 : 1.04;
+  let crcl = ((140 - age) * wt * F) / scr;
   crcl = Math.round(crcl * 10) / 10;
 
   let interpText = '', interpColor = '';
@@ -2255,129 +3054,458 @@ function applyCrCl() {
   runScreening();
 }
 
-// ============ PARENTERAL TRACKER ============
-function updateTracker() {
-  const day1 = document.getElementById('tracker-day1').value;
-  const today = document.getElementById('tracker-today').value;
-  if (!day1 || !today) return;
+// ============ PARENTERAL DOSING CALCULATOR ============
+function calcParenteral() {
+  const wt    = parseFloat(document.getElementById('pd-weight').value);
+  const bmi   = parseFloat(document.getElementById('pd-bmi').value);
+  const indic = document.getElementById('pd-indication').value;
+  const ph    = document.getElementById('pd-placeholder');
+  const out   = document.getElementById('pd-output');
+  const outBox= document.getElementById('pd-output-content');
 
-  const d1 = new Date(day1);
-  const dt = new Date(today);
-  const diffDays = Math.floor((dt - d1) / (1000 * 60 * 60 * 24)) + 1;
+  if (!indic || isNaN(wt) || wt <= 0) { ph.style.display='block'; out.style.display='none'; return; }
+  ph.style.display = 'none';
+  out.style.display = 'block';
 
-  const days = document.querySelectorAll('#tracker-days .tracker-day');
-  days.forEach((d, i) => {
-    d.classList.remove('day-done', 'day-today', 'day-future');
-    if      (i + 1 <  diffDays) d.classList.add('day-done');
-    else if (i + 1 === diffDays) d.classList.add('day-today');
-    else                         d.classList.add('day-future');
-  });
+  const obese = !isNaN(bmi) && bmi >= 40;
+  const ufhProtocolBtn = `<a href="HSgB_IVI_Heparin_Protocol_for_VTE.pdf" target="_blank" style="display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:white;padding:5px 11px;border-radius:6px;font-family:'Sora',sans-serif;font-weight:600;font-size:0.76rem;text-decoration:none" onmouseover="this.style.background='var(--blue)'" onmouseout="this.style.background='var(--navy)'">📄 IVI Heparin Protocol ↗</a>`;
+  const severeRenalMsg = '<span style="font-size:0.9rem">🚫 Avoid routine use due to accumulation and bleeding risk. If Clexane is required, seek specialist advice.</span>';
+  const fondaCI30      = '⛔ Contraindicated (CrCl &lt;30 ml/min)';
+  const noAdj          = '✓ No dosage adjustment required';
+  const na             = '<span style="color:var(--text-muted)">N/A for this indication</span>';
 
-  const statusEl = document.getElementById('tracker-status');
-  statusEl.style.display = 'block';
-  const drug = document.getElementById('tracker-drug').value === 'dabi' ? 'Dabigatran' : 'Edoxaban';
-  const startDate = new Date(d1);
-  startDate.setDate(startDate.getDate() + 5);
-  const fmt = d => d.toLocaleDateString('en-MY', { weekday:'short', day:'numeric', month:'short', year:'numeric' });
+  // ── ROCK dosing data ──────────────────────────────────────────────────────
+  const rockData = {
+    'vte-proph': [
+      { min:0,    max:39.9,  label:'<40 kg',     normal:'No recommendation',           renal:'No recommendation',         fondaN:'—',              fondaR:'—' },
+      { min:40,   max:9999,  label:'≥40 kg',     normal:'40 mg OD',                    renal:'20 mg OD',                  fondaN:'2.5 mg OD',      fondaR:fondaCI30 }
+    ],
+    'major-ortho-proph': [
+      { min:0,    max:39.9,  label:'<40 kg',     normal:'No recommendation',           renal:'No recommendation',         fondaN:'—',              fondaR:'—' },
+      { min:40,   max:9999,  label:'≥40 kg',     normal:'40–60 mg OD',                 renal:'20–30 mg OD',               fondaN:'2.5 mg OD',      fondaR:fondaCI30 }
+    ],
+    'preg-proph': [
+      { min:0,    max:49.9,  label:'<50 kg',     normal:'20 mg OD',                    renal:'Consider 50% of normal dose' },
+      { min:50,   max:90,    label:'50–90 kg',   normal:'40 mg OD',                    renal:'20 mg OD' },
+      { min:90.1, max:130,   label:'91–130 kg',  normal:'60 mg OD',                    renal:'30 mg OD' },
+      { min:130.1,max:170,   label:'131–170 kg', normal:'80 mg OD',                    renal:'40 mg OD' },
+      { min:170.1,max:9999,  label:'>170 kg',    normal:'0.6 mg/kg/day',               renal:'Consider 50% of normal dose' }
+    ],
+    'dvt-pe': [
+      { min:0,    max:39.9,  label:'<40 kg',     normal:'20–40 mg BD',                 renal:'Consider 50% of normal dose', fondaN:'5 mg OD',       fondaR:fondaCI30 },
+      { min:40,   max:49,    label:'40–49 kg',   normal:'40 mg BD',                    renal:'40 mg OD',                    fondaN:'5 mg OD',       fondaR:fondaCI30 },
+      { min:50,   max:69,    label:'50–69 kg',   normal:'60 mg BD',                    renal:'60 mg OD',                    fondaN:'7.5 mg OD',     fondaR:fondaCI30 },
+      { min:70,   max:99,    label:'70–99 kg',   normal:'80 mg BD',                    renal:'80 mg OD',                    fondaN:'7.5 mg OD',     fondaR:fondaCI30 },
+      { min:100,  max:120,   label:'100–120 kg', normal:'100–120 mg BD',               renal:'80–120 mg OD',                fondaN:'10 mg OD',      fondaR:fondaCI30 },
+      { min:120.1,max:9999,  label:'>120 kg',    normal:'0.75 mg/kg BD (≤160 mg BD)',  renal:'0.75 mg/kg OD (≤160 mg OD)', fondaN:'10 mg OD',      fondaR:fondaCI30, note:'BMI ≥40 kg/m²' }
+    ],
+    'acs': [
+      { min:0,    max:39.9,  label:'<40 kg',     normal:'20–40 mg BD',                 renal:'Consider 50% of normal dose', fondaN:'2.5 mg OD',     fondaR:fondaCI30 },
+      { min:40,   max:49,    label:'40–49 kg',   normal:'40 mg BD',                    renal:'40 mg OD',                    fondaN:'2.5 mg OD',     fondaR:fondaCI30 },
+      { min:50,   max:69,    label:'50–69 kg',   normal:'60 mg BD',                    renal:'60 mg OD',                    fondaN:'2.5 mg OD',     fondaR:fondaCI30 },
+      { min:70,   max:99,    label:'70–99 kg',   normal:'80 mg BD',                    renal:'80 mg OD',                    fondaN:'2.5 mg OD',     fondaR:fondaCI30 },
+      { min:100,  max:120,   label:'100–120 kg', normal:'100–120 mg BD',               renal:'80–120 mg OD',                fondaN:'2.5 mg OD',     fondaR:fondaCI30 },
+      { min:120.1,max:9999,  label:'>120 kg',    normal:'0.75 mg/kg BD (≤160 mg BD)',  renal:'0.75 mg/kg OD (≤160 mg OD)', fondaN:'2.5 mg OD',     fondaR:fondaCI30, note:'BMI ≥40 kg/m²' }
+    ]
+  };
 
-  if (diffDays < 1) {
-    statusEl.style.cssText = 'font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid var(--warning-border);background:var(--warning-light);color:var(--warning);margin-top:8px';
-    statusEl.innerHTML = `⚠️ Date appears to be before Day 1.`;
-  } else if (diffDays < 5) {
-    const rem = 5 - diffDays;
-    statusEl.style.cssText = 'font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid var(--info-border);background:var(--info-light);color:#1e40af;margin-top:8px';
-    statusEl.innerHTML = `📅 Day <strong>${diffDays}</strong> of 5. <strong>${rem} more day${rem>1?'s':''} required.</strong> Earliest ${drug} start: <strong>${fmt(startDate)}</strong>`;
-  } else if (diffDays === 5) {
-    statusEl.style.cssText = 'font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid var(--success-border);background:var(--success-light);color:var(--success);margin-top:8px';
-    statusEl.innerHTML = `✅ <strong>Day 5 — Minimum met.</strong> ${drug} can be started at the <strong>next scheduled parenteral dose time today</strong>. Remind Dr to stop parenteral in system.`;
+  const txProphData = [
+    { min:0,    max:39.9,  label:'<40 kg',      normal:'No data — consult specialist', renal:'No data' },
+    { min:40,   max:49,    label:'40–49 kg',    normal:'60 mg OD or 40 mg BD',         renal:'40 mg OD' },
+    { min:50,   max:69,    label:'50–69 kg',    normal:'*80 mg OD or 60 mg BD',        renal:'60 mg OD' },
+    { min:70,   max:99,    label:'70–99 kg',    normal:'*100–120 mg OD or 80 mg BD',   renal:'80 mg OD' },
+    { min:100,  max:120,   label:'100–120 kg',  normal:'*80–120 mg BD',                renal:'*80–120 mg OD' },
+    { min:120.1,max:9999,  label:'>120/BMI≥40', normal:'0.75 mg/kg BD (≤160 mg BD)',   renal:'0.75 mg/kg OD (≤160 mg OD)' }
+  ];
+
+  const rows = (indic === 'tx-proph') ? txProphData : (rockData[indic] || []);
+  const row  = rows.find(r => wt >= r.min && wt <= r.max);
+  if (!row) { outBox.innerHTML = `<div class="alert alert-warning"><span class="alert-icon">⚠️</span><div>Weight out of expected range. Please verify and consult specialist.</div></div>`; return; }
+
+  const isPreg     = indic === 'preg-proph';
+  const isTxProph  = indic === 'tx-proph';
+  const isProph    = (indic === 'vte-proph' || indic === 'major-ortho-proph');
+  const isTreatment= (indic === 'dvt-pe' || indic === 'acs');
+  const showFonda  = !isPreg && !isTxProph && row.fondaN;
+
+  // UFH columns
+  const ufhNormal = isProph ? (obese ? 'S/C 7500 units BD' : 'S/C 5000 units BD or TDS') : ufhProtocolBtn;
+  const ufhRenal  = noAdj;
+  const ufhSev    = noAdj;
+
+  // Build the tiered rows
+  const tierHdr = (icon, label, bg, color) =>
+    `<td style="background:${bg};color:${color};font-weight:700;font-size:0.82rem;padding:9px 10px;white-space:nowrap">${icon} ${label}</td>`;
+
+  const normalBg  = '#f0fdf4'; const normalC  = '#14532d';
+  const renalBg   = '#fffbeb'; const renalC   = '#78350f';
+  const sevBg     = '#fef2f2'; const sevC     = '#7f1d1d';
+
+  const noteTag = row.note ? `<div style="font-size:0.72rem;color:var(--text-muted);margin-top:3px">📌 ${row.note}</div>` : '';
+  const wt0120  = wt <= 120 ? '' : `<div style="font-size:0.72rem;color:var(--text-muted);margin-top:3px">~${Math.min(Math.round(0.75*wt),160)} mg based on current weight</div>`;
+
+  const covidNote = isTxProph ? `<div class="note-box" style="margin-bottom:10px">ℹ️ Therapeutic-dose prophylaxis for <strong>COVID-19 patients on high-flow O₂</strong>. Duration: until discharge or 14 days. *Doses capped conservatively.</div>` : '';
+  const pregNote  = isPreg   ? `<div class="note-box" style="margin-bottom:10px">ℹ️ <strong>Pregnancy:</strong> Enoxaparin is preferred. Fondaparinux and UFH not routinely used. Review dose at 20 &amp; 34 weeks (or if weight change &gt;10 kg).</div>` : '';
+
+  const fondaColspan = showFonda ? '' : 'colspan="2"';
+
+  outBox.innerHTML = `
+    ${covidNote}${pregNote}
+    <div style="overflow-x:auto;margin-bottom:4px">
+    <table>
+      <tr>
+        <th style="width:130px">Renal tier</th>
+        <th>Enoxaparin (Clexane®) S/C<br><small style="font-weight:400;opacity:0.8">BW: ${row.label}${row.note ? ' · '+row.note : ''}</small></th>
+        ${showFonda ? `<th>Fondaparinux (Arixtra®) S/C</th>` : ''}
+        ${!isPreg ? `<th>UFH (Heparin)</th>` : ''}
+      </tr>
+      <tr style="background:${normalBg}">
+        ${tierHdr('✓', 'Normal renal function', normalBg, normalC)}
+        <td class="dose-cell" style="font-size:0.92rem">${row.normal}${wt0120}</td>
+        ${showFonda ? `<td class="dose-cell" style="font-size:0.92rem">${row.fondaN}</td>` : ''}
+        ${!isPreg ? `<td class="dose-cell">${ufhNormal}</td>` : ''}
+      </tr>
+      <tr style="background:${renalBg}">
+        ${tierHdr('⚠️', 'Renal adj (CrCl 15–30)', renalBg, renalC)}
+        <td class="dose-cell" style="font-size:0.92rem">${row.renal}</td>
+        ${showFonda ? `<td style="color:var(--danger);font-weight:600;font-size:0.9rem">${row.fondaR || fondaCI30}</td>` : ''}
+        ${!isPreg ? `<td class="dose-cell" style="color:var(--success)">${ufhRenal}</td>` : ''}
+      </tr>
+      <tr style="background:${sevBg}">
+        ${tierHdr('🚫', 'CrCl &lt;15 ml/min', sevBg, sevC)}
+        <td style="color:${sevC};font-size:0.82rem">${severeRenalMsg}</td>
+        ${showFonda ? `<td style="color:var(--danger);font-weight:600;font-size:0.82rem">${fondaCI30}</td>` : ''}
+        ${!isPreg ? `<td class="dose-cell" style="color:var(--success)">${ufhSev}</td>` : ''}
+      </tr>
+    </table>
+    </div>`;
+}
+
+
+// ============ BMI CALCULATOR ============
+function toggleBmiHelper() {
+  const helper = document.getElementById('bmi-inline-helper');
+  const btn = document.getElementById('bmi-helper-btn');
+  const isOpen = helper.style.display !== 'none';
+  helper.style.display = isOpen ? 'none' : 'block';
+  btn.style.background = isOpen ? 'var(--info-light)' : 'var(--blue)';
+  btn.style.color = isOpen ? 'var(--blue)' : 'white';
+  if (!isOpen) calcInlineBmi();
+}
+
+function calcInlineBmi() {
+  const height = parseFloat(document.getElementById('bmi-height').value);
+  const weight = parseFloat(document.getElementById('s-weight').value);
+  const resEl = document.getElementById('bmi-inline-result');
+  if (isNaN(height) || height <= 0) { resEl.style.display = 'none'; return; }
+  if (isNaN(weight) || weight <= 0) {
+    resEl.style.display = 'block';
+    document.getElementById('bmi-inline-val').textContent = '—';
+    document.getElementById('bmi-inline-interp').innerHTML = '<span style="color:var(--danger)">Enter weight above first</span>';
+    resEl.removeAttribute('data-bmi'); return;
+  }
+  const bmi = weight / Math.pow(height / 100, 2);
+  const bmiRound = Math.round(bmi * 10) / 10;
+  let interpText = '', interpColor = 'var(--success)';
+  if (bmi < 18.5)      { interpText = 'Underweight'; interpColor = 'var(--warning)'; }
+  else if (bmi < 25)   { interpText = 'Normal'; interpColor = 'var(--success)'; }
+  else if (bmi < 30)   { interpText = 'Overweight'; interpColor = 'var(--warning)'; }
+  else if (bmi < 40)   { interpText = 'Obese'; interpColor = '#b45309'; }
+  else                 { interpText = 'Severely Obese (>40) ⚠️'; interpColor = 'var(--danger)'; }
+  resEl.style.display = 'block';
+  resEl.setAttribute('data-bmi', bmiRound);
+  document.getElementById('bmi-inline-val').textContent = bmiRound + ' kg/m²';
+  document.getElementById('bmi-inline-interp').innerHTML = `<span style="color:${interpColor};font-weight:600">${interpText}</span>`;
+}
+
+function applyBmi() {
+  const val = document.getElementById('bmi-inline-result').getAttribute('data-bmi');
+  if (!val) return;
+  const field = document.getElementById('s-bmi');
+  field.value = val;
+  field.style.background = '#dcfce7'; field.style.borderColor = 'var(--success)';
+  setTimeout(() => { field.style.background = ''; field.style.borderColor = ''; }, 1600);
+  toggleBmiHelper();
+  runScreening();
+}
+
+// ============ LFT BADGE ============
+function updateLftBadge(which) {
+  const id = which === 'alt' ? 's-alt-raw' : 's-ast-raw';
+  const badgeId = which === 'alt' ? 'alt-tier-badge' : 'ast-tier-badge';
+  const val = parseFloat(document.getElementById(id).value);
+  const badge = document.getElementById(badgeId);
+  if (isNaN(val) || val < 0) { badge.style.display = 'none'; return; }
+  const x = val / 35;
+  badge.style.display = 'inline-block';
+  if (x >= 3) {
+    badge.textContent = `${x.toFixed(1)}× ULN ⛔`; badge.style.cssText = 'display:inline-block;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap;background:var(--danger-light);color:var(--danger);border:1px solid var(--danger-border)';
+  } else if (x >= 2) {
+    badge.textContent = `${x.toFixed(1)}× ULN ⚠️`; badge.style.cssText = 'display:inline-block;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap;background:var(--warning-light);color:var(--warning);border:1px solid var(--warning-border)';
   } else {
-    statusEl.style.cssText = 'font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid var(--success-border);background:var(--success-light);color:var(--success);margin-top:8px';
-    statusEl.innerHTML = `✅ <strong>Day ${diffDays} — ≥5 days completed.</strong> ${drug} can be started. Confirm parenteral has been stopped in system.`;
+    badge.textContent = `${x.toFixed(1)}× ULN ✓`; badge.style.cssText = 'display:inline-block;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap;background:var(--success-light);color:var(--success);border:1px solid var(--success-border)';
   }
 }
 
-// ============ DOSE DATE PLANNER ============
-function updateDosePlanner() {
-  const drug  = document.getElementById('dp-drug').value;
-  const indic = document.getElementById('dp-indication').value;
-  const start = document.getElementById('dp-startdate').value;
-  const lbl   = document.getElementById('dp-start-label');
-  const ph    = document.getElementById('dp-placeholder');
-  const tl    = document.getElementById('dp-timeline');
-
-  if (!drug || !indic) {
-    ph.style.display = 'block'; tl.style.display = 'none'; return;
+// ============ T.BILIRUBIN BADGE & TOGGLE ============
+function toggleTbiliField() {
+  const drug = document.getElementById('s-drug').value;
+  const grp  = document.getElementById('tbili-group');
+  if (!grp) return;
+  // Show for Edoxaban in screen mode; always show in find mode
+  grp.style.display = (drug === 'edox' || currentMode === 'find') ? '' : 'none';
+  if (grp.style.display === 'none') {
+    document.getElementById('s-tbili').value = '';
+    document.getElementById('tbili-badge').style.display = 'none';
   }
+}
 
-  // Update label context
-  const needsParenteral = (drug === 'dabi' || drug === 'edox') && indic === 'VTE';
-  lbl.textContent = needsParenteral ? 'Day 1 Parenteral (date)' : 'Start Date of DOAC';
+function updateTbiliBadge() {
+  const val   = parseFloat(document.getElementById('s-tbili').value);
+  const badge = document.getElementById('tbili-badge');
+  if (isNaN(val) || val < 0) { badge.style.display = 'none'; return; }
+  const x = val / 15;
+  badge.style.display = 'inline-block';
+  if (x >= 1.5) {
+    badge.textContent = `${x.toFixed(1)}× ULN ⚠️`;
+    badge.style.cssText = 'display:inline-block;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap;background:var(--warning-light);color:var(--warning);border:1px solid var(--warning-border)';
+  } else {
+    badge.textContent = `${x.toFixed(1)}× ULN ✓`;
+    badge.style.cssText = 'display:inline-block;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap;background:var(--success-light);color:var(--success);border:1px solid var(--success-border)';
+  }
+}
 
-  if (!start) { ph.style.display = 'block'; tl.style.display = 'none'; return; }
+// ============ PLATELET BADGE ============
+function updatePlateletBadge() {
+  const val = parseFloat(document.getElementById('s-platelet').value);
+  const badge = document.getElementById('platelet-badge');
+  if (isNaN(val) || val < 0) { badge.style.display = 'none'; return; }
+  badge.style.display = 'inline-block';
+  if (val < 50) {
+    badge.textContent = 'Severe ⛔'; badge.style.cssText = 'display:inline-block;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap;background:var(--danger-light);color:var(--danger);border:1px solid var(--danger-border)';
+  } else if (val < 100) {
+    badge.textContent = 'Low ⚠️'; badge.style.cssText = 'display:inline-block;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap;background:var(--warning-light);color:var(--warning);border:1px solid var(--warning-border)';
+  } else if (val < 150) {
+    badge.textContent = 'Low-normal ⚠️'; badge.style.cssText = 'display:inline-block;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap;background:var(--warning-light);color:var(--warning);border:1px solid var(--warning-border)';
+  } else {
+    badge.textContent = 'Normal ✓'; badge.style.cssText = 'display:inline-block;font-size:0.72rem;padding:3px 8px;border-radius:4px;font-weight:700;font-family:var(--mono);white-space:nowrap;background:var(--success-light);color:var(--success);border:1px solid var(--success-border)';
+  }
+}
 
-  ph.style.display = 'none';
-  tl.style.display = 'block';
+// ============ CHILD-PUGH CALCULATOR ============
+function toggleCpughHelper() {
+  const helper = document.getElementById('cpugh-inline-helper');
+  const btn = document.getElementById('cpugh-helper-btn');
+  const isOpen = helper.style.display !== 'none';
+  helper.style.display = isOpen ? 'none' : 'block';
+  btn.style.background = isOpen ? 'var(--info-light)' : 'var(--blue)';
+  btn.style.color = isOpen ? 'var(--blue)' : 'white';
+}
 
-  const d0 = new Date(start);
+function calcChildPugh() {
+  const ids = ['cp-bili','cp-albumin','cp-inr','cp-ascites','cp-enceph'];
+  const vals = ids.map(id => parseInt(document.getElementById(id).value) || 0);
+  if (vals.some(v => v === 0)) { document.getElementById('cpugh-inline-result').style.display = 'none'; return; }
+  const score = vals.reduce((a,b) => a+b, 0);
+  const resEl = document.getElementById('cpugh-inline-result');
+  resEl.style.display = 'block';
+  document.getElementById('cpugh-score').textContent = score + ' pts';
+  let cls, clsColor, interp;
+  if (score <= 6) {
+    cls = 'A'; clsColor = 'var(--success)';
+    interp = 'Mild hepatic impairment. DOACs generally usable with caution — refer to individual drug guidance.';
+  } else if (score <= 9) {
+    cls = 'B'; clsColor = 'var(--warning)';
+    interp = 'Moderate hepatic impairment. Dabigatran &amp; Apixaban: use with caution. Rivaroxaban &amp; Edoxaban: CONTRAINDICATED.';
+  } else {
+    cls = 'C'; clsColor = 'var(--danger)';
+    interp = 'Severe hepatic impairment. ALL DOACs CONTRAINDICATED.';
+  }
+  const clsEl = document.getElementById('cpugh-class');
+  clsEl.textContent = 'Class ' + cls;
+  clsEl.style.color = clsColor;
+  document.getElementById('cpugh-interp').innerHTML = interp;
+  resEl.setAttribute('data-class', cls);
+}
+
+function applyCpugh() {
+  const cls = document.getElementById('cpugh-inline-result').getAttribute('data-class');
+  if (!cls) return;
+  const sel = document.getElementById('s-cpugh');
+  sel.value = cls;
+  sel.style.background = '#dcfce7'; sel.style.borderColor = 'var(--success)';
+  setTimeout(() => { sel.style.background = ''; sel.style.borderColor = ''; }, 1600);
+  toggleCpughHelper();
+  runScreening();
+}
+
+// ============ UNIFIED DOAC INITIATION PLANNER ============
+function updateInitPlanner() {
+  const drug  = document.getElementById('ip-drug').value;
+  const indic = document.getElementById('ip-indication').value;
+
+  const secParent    = document.getElementById('ip-parenteral-section');
+  const secNoParent  = document.getElementById('ip-noparenteral-section');
+  const placeholder  = document.getElementById('ip-placeholder');
+  const tlWrapper    = document.getElementById('ip-timeline');
+  const tlContent    = document.getElementById('ip-timeline-content');
+
+  // Reset
+  secParent.style.display   = 'none';
+  secNoParent.style.display = 'none';
+  placeholder.style.display = 'block';
+  tlWrapper.style.display   = 'none';
+  document.getElementById('ip-tracker-section').style.display = 'none';
+  document.getElementById('ip-tracker-status').style.display  = 'none';
+
+  if (!drug || !indic) return;
+
+  const drugNames  = { dabi:'Dabigatran', apix:'Apixaban', riva:'Rivaroxaban', edox:'Edoxaban' };
+  const drugColors = { dabi:'#1e3a5f',    apix:'#065f46',  riva:'#7c2d12',     edox:'#4c1d95'  };
+  const agentNames = { clexane:'Enoxaparin (Clexane®)', arixtra:'Fondaparinux (Arixtra®)', ufh:'Heparin (IV UFH)' };
+  const name = drugNames[drug];
+  const col  = drugColors[drug];
   const fmt  = d => d.toLocaleDateString('en-MY', { weekday:'short', day:'numeric', month:'short', year:'numeric' });
   const addD = (date, n) => { const d = new Date(date); d.setDate(d.getDate() + n); return d; };
 
-  const drugNames = { dabi:'Dabigatran', apix:'Apixaban', riva:'Rivaroxaban', edox:'Edoxaban' };
-  const drugColors = { dabi:'#1e3a5f', apix:'#065f46', riva:'#7c2d12', edox:'#4c1d95' };
-  const col = drugColors[drug];
-  const name = drugNames[drug];
+  const needsParenteral = (drug === 'dabi' || drug === 'edox') && indic === 'VTE';
 
-  let phases = [];
+  // ── PARENTERAL REQUIRED ─────────────────────────────────────
+  if (needsParenteral) {
+    placeholder.style.display  = 'none';
+    secParent.style.display    = 'block';
 
-  if (indic === 'AF') {
-    // All AF: no loading dose, start maintenance immediately
-    const doses = { dabi:'150mg BD (or 110mg BD if criteria met)', apix:'5mg BD (or 2.5mg BD if criteria met)', riva:'20mg OD with food (or 15mg OD if CrCl 15–49)', edox:'60mg OD (or 30mg OD if criteria met)' };
-    phases = [
-      { label:'Day 1', date: fmt(d0), desc:`Start <strong>${name} ${doses[drug]}</strong>. No loading dose required for AF.`, type:'start', icon:'🟢' },
-      { label:'Ongoing', date:'Lifelong', desc:`Continue <strong>${name}</strong> at same dose. No dose change required.`, type:'maint', icon:'♾️' }
-    ];
-  } else if (drug === 'apix' && indic === 'VTE') {
-    const maint = addD(d0, 7); // Day 8
-    phases = [
-      { label:'Day 1', date: fmt(d0), desc:`Start <strong>Apixaban 10mg BD</strong> (loading dose — no parenteral needed). Take twice daily.`, type:'start', icon:'🟢' },
-      { label:'Days 1–7', date:`${fmt(d0)} → ${fmt(addD(d0,6))}`, desc:`Continue <strong>Apixaban 10mg BD</strong> for 7 days.`, type:'loading', icon:'⏳' },
-      { label:'Day 8 — Switch to Maintenance', date: fmt(maint), desc:`<strong>Reduce to Apixaban 5mg BD</strong> from this date onwards. ⚠️ Do NOT continue 10mg BD beyond Day 7.`, type:'switch', icon:'🔄' },
-      { label:'Ongoing (≥3 months)', date:'Per indication', desc:`Continue <strong>Apixaban 5mg BD</strong>. After ≥6 months, consider reducing to 2.5mg BD for extended prevention if indicated.`, type:'maint', icon:'♾️' }
-    ];
-  } else if (drug === 'riva' && indic === 'VTE') {
-    const maint = addD(d0, 21); // Day 22
-    phases = [
-      { label:'Day 1', date: fmt(d0), desc:`Start <strong>Rivaroxaban 15mg BD with food</strong> (loading dose — no parenteral needed). Must be taken WITH food.`, type:'start', icon:'🟢' },
-      { label:'Days 1–21', date:`${fmt(d0)} → ${fmt(addD(d0,20))}`, desc:`Continue <strong>Rivaroxaban 15mg BD with food</strong> for 21 days.`, type:'loading', icon:'⏳' },
-      { label:'Day 22 — Switch to Maintenance', date: fmt(maint), desc:`<strong>Reduce to Rivaroxaban 20mg OD with food</strong> from this date. ⚠️ Do NOT continue 15mg BD beyond Day 21.`, type:'switch', icon:'🔄' },
-      { label:'Ongoing (≥3 months)', date:'Per indication', desc:`Continue <strong>Rivaroxaban 20mg OD with food</strong>. After ≥6 months, consider 10mg OD for extended prevention if indicated.`, type:'maint', icon:'♾️' }
-    ];
-  } else if (drug === 'dabi' && indic === 'VTE') {
-    const doac = addD(d0, 5); // After Day 5 parenteral
-    phases = [
-      { label:'Day 1', date: fmt(d0), desc:`Start <strong>parenteral anticoagulant (LMWH/Heparin)</strong>. Dabigatran NOT started yet.`, type:'parenteral', icon:'💉' },
-      { label:'Days 1–5', date:`${fmt(d0)} → ${fmt(addD(d0,4))}`, desc:`Continue parenteral anticoagulant for minimum <strong>5 full days</strong>.`, type:'loading', icon:'⏳' },
-      { label:'Day 6 — Switch to Dabigatran', date: fmt(doac), desc:`Stop parenteral. Start <strong>Dabigatran 150mg BD</strong> (or 110mg BD if criteria met) at the time of the next scheduled parenteral dose. Remind Dr to stop parenteral in system.`, type:'switch', icon:'🔄' },
-      { label:'Ongoing (≥3 months)', date:'Per indication', desc:`Continue <strong>Dabigatran</strong> at prescribed dose. No further dose changes unless clinically indicated.`, type:'maint', icon:'♾️' }
-    ];
-  } else if (drug === 'edox' && indic === 'VTE') {
-    const doac = addD(d0, 5);
-    phases = [
-      { label:'Day 1', date: fmt(d0), desc:`Start <strong>parenteral anticoagulant (LMWH/Heparin)</strong>. Edoxaban NOT started yet.`, type:'parenteral', icon:'💉' },
-      { label:'Days 1–5', date:`${fmt(d0)} → ${fmt(addD(d0,4))}`, desc:`Continue parenteral anticoagulant for minimum <strong>5 full days</strong>.`, type:'loading', icon:'⏳' },
-      { label:'Day 6 — Switch to Edoxaban', date: fmt(doac), desc:`Stop parenteral. Start <strong>Edoxaban 60mg OD</strong> (or 30mg OD if criteria met) at the time of the next scheduled parenteral dose. Remind Dr to stop parenteral in system.`, type:'switch', icon:'🔄' },
-      { label:'Ongoing (≥3 months)', date:'Per indication', desc:`Continue <strong>Edoxaban</strong> at prescribed dose.`, type:'maint', icon:'♾️' }
-    ];
+    const agentEl  = document.getElementById('ip-parenteral-agent');
+    const agentKey = agentEl ? agentEl.value : 'clexane';
+    const agentLabel = agentNames[agentKey] || 'parenteral anticoagulant';
+
+    // Note: Fondaparinux is contraindicated when switching Dabigatran → parenteral, but here we're initiating
+    let warningNote = '';
+    if (agentKey === 'arixtra') {
+      warningNote = drug === 'dabi'
+        ? ' <strong>Note:</strong> Fondaparinux is <em>contraindicated</em> as a bridging agent when later switching back from Dabigatran — use Enoxaparin if in doubt.'
+        : '';
+    }
+
+    document.getElementById('ip-parenteral-msg').innerHTML =
+      `<strong>${name} for VTE requires parenteral anticoagulant ≥5 days FIRST.</strong> ${name} is started on Day 6 (at time of next scheduled parenteral dose). ${agentLabel} selected.${warningNote}`;
+
+    // Tracker
+    const day1Input = document.getElementById('ip-parenteral-day1').value;
+    if (day1Input) {
+      const trackerSec = document.getElementById('ip-tracker-section');
+      trackerSec.style.display = 'block';
+
+      // Parse in LOCAL time to avoid UTC offset issues (e.g. MYT = UTC+8)
+      const [_y,_m,_d] = day1Input.split('-').map(Number);
+      const d1 = new Date(_y, _m-1, _d);
+      const today = new Date(); today.setHours(0,0,0,0);
+      const diffDays = Math.floor((today - d1) / (1000 * 60 * 60 * 24)) + 1;
+
+      const days = document.querySelectorAll('#ip-tracker-days .tracker-day');
+      days.forEach((d, i) => {
+        d.classList.remove('day-done', 'day-today', 'day-future');
+        if      (i + 1 <  diffDays) d.classList.add('day-done');
+        else if (i + 1 === diffDays) d.classList.add('day-today');
+        else                          d.classList.add('day-future');
+      });
+
+      const statusEl = document.getElementById('ip-tracker-status');
+      statusEl.style.display = 'block';
+      const switchDate = addD(d1, 5);
+
+      if (diffDays < 1) {
+        statusEl.style.cssText = 'font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid var(--warning-border);background:var(--warning-light);color:var(--warning);margin-bottom:14px';
+        statusEl.innerHTML = `⚠️ Date entered is in the future — check Day 1 date.`;
+      } else if (diffDays < 5) {
+        const rem = 5 - diffDays;
+        statusEl.style.cssText = 'font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid var(--info-border);background:var(--info-light);color:#1e40af;margin-bottom:14px';
+        statusEl.innerHTML = `📅 Currently <strong>Day ${diffDays}</strong> of 5 — <strong>${rem} more day${rem>1?'s':''} to go.</strong> Earliest ${name} start: <strong>${fmt(switchDate)}</strong>. Continue ${agentLabel}.`;
+      } else if (diffDays === 5) {
+        statusEl.style.cssText = 'font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid var(--success-border);background:var(--success-light);color:var(--success);margin-bottom:14px';
+        statusEl.innerHTML = `✅ <strong>Day 5 — minimum met.</strong> ${name} can be started at the next scheduled ${agentLabel} dose time <strong>today (${fmt(today)})</strong>. Remind Dr to stop ${agentLabel} in system.`;
+      } else {
+        statusEl.style.cssText = 'font-size:0.85rem;padding:10px 14px;border-radius:8px;border:1px solid var(--success-border);background:var(--success-light);color:var(--success);margin-bottom:14px';
+        statusEl.innerHTML = `✅ <strong>Day ${diffDays} — ≥5 days completed.</strong> ${name} should have been started on <strong>${fmt(switchDate)}</strong>. Confirm ${agentLabel} has been stopped and ${name} is running in system.`;
+      }
+
+      // Generate timeline using Day 1 of parenteral as d0
+      const d0 = d1;
+      const doacStart = addD(d0, 5);
+      const phases = [
+        { label:'Day 1', date: fmt(d0), desc:`Start <strong>${agentLabel}</strong>. ${name} NOT started yet.`, type:'parenteral', icon:'💉' },
+        { label:'Days 1–5', date:`${fmt(d0)} → ${fmt(addD(d0,4))}`, desc:`Continue <strong>${agentLabel}</strong> for minimum <strong>5 full days</strong>. Monitor for HIT (if Enoxaparin/Heparin) and renal function.`, type:'loading', icon:'⏳' },
+        { label:`Day 6 — Switch to ${name}`, date: fmt(doacStart), desc:`Stop ${agentLabel}. Start <strong>${name} ${drug==='dabi'?'150mg BD (or 110mg BD if criteria met)':'60mg OD (or 30mg OD if criteria met)'}</strong> at the time of the <em>next scheduled</em> ${agentLabel} dose. Remind Dr to stop parenteral in system.`, type:'switch', icon:'🔄' },
+        { label:'Ongoing (≥3 months)', date:'Per indication', desc:`Continue <strong>${name}</strong> at prescribed dose. No further dose changes unless clinically indicated. Minimum 3 months; duration guided by VTE provocation and risk.`, type:'maint', icon:'♾️' }
+      ];
+      renderTimeline(tlContent, phases, col);
+      tlWrapper.style.display = 'block';
+    }
+
+  // ── NO PARENTERAL REQUIRED ────────────────────────────────────
+  } else {
+    placeholder.style.display   = 'none';
+    secNoParent.style.display   = 'block';
+
+    const msgs = {
+      'apix_VTE': `<strong>Apixaban for VTE — no parenteral needed.</strong> Apixaban uses a built-in lead-in dose (10mg BD × 7 days). Start Apixaban directly.`,
+      'riva_VTE':  `<strong>Rivaroxaban for VTE — no parenteral needed.</strong> Rivaroxaban uses a built-in lead-in dose (15mg BD × 21 days with food). Start Rivaroxaban directly.`,
+      'dabi_AF':   `<strong>Dabigatran for AF — no parenteral needed.</strong> AF does not require a lead-in parenteral phase. Start Dabigatran directly at maintenance dose.`,
+      'apix_AF':   `<strong>Apixaban for AF — no parenteral needed.</strong> No lead-in dose required for AF; start at maintenance dose directly.`,
+      'riva_AF':   `<strong>Rivaroxaban for AF — no parenteral needed.</strong> No lead-in dose required for AF; start at maintenance dose directly.`,
+      'edox_AF':   `<strong>Edoxaban for AF — no parenteral needed.</strong> No lead-in dose required for AF; start at maintenance dose directly.`,
+    };
+    document.getElementById('ip-noparenteral-msg').innerHTML = msgs[`${drug}_${indic}`] || `<strong>${name} for ${indic} — no parenteral anticoagulant required.</strong>`;
+
+    const startInput = document.getElementById('ip-doac-startdate').value;
+    if (startInput) {
+      const d0 = new Date(startInput);
+      let phases = [];
+
+      if (indic === 'AF') {
+        const doses = {
+          dabi:'150mg BD (or 110mg BD if criteria met — age ≥80, concomitant verapamil, or high bleed risk)',
+          apix:'5mg BD (or 2.5mg BD if ≥2 of: age ≥80, weight ≤60kg, SCr ≥133μmol/L)',
+          riva:'20mg OD with evening meal (or 15mg OD if CrCl 15–49 mL/min)',
+          edox:'60mg OD (or 30mg OD if criteria met)'
+        };
+        phases = [
+          { label:'Day 1', date: fmt(d0), desc:`Start <strong>${name} ${doses[drug]}</strong>. No lead-in dose required for AF.`, type:'start', icon:'🟢' },
+          { label:'Ongoing', date:'Lifelong', desc:`Continue <strong>${name}</strong> at same dose unless clinical review indicates otherwise. No dose change schedule.`, type:'maint', icon:'♾️' }
+        ];
+      } else if (drug === 'apix') {
+        const maint = addD(d0, 7);
+        phases = [
+          { label:'Day 1', date: fmt(d0), desc:`Start <strong>Apixaban 10mg BD</strong> (VTE lead-in dose — no parenteral needed). Take twice daily, with or without food.`, type:'start', icon:'🟢' },
+          { label:'Days 1–7', date:`${fmt(d0)} → ${fmt(addD(d0,6))}`, desc:`Continue <strong>Apixaban 10mg BD</strong> for 7 full days. Do not reduce early.`, type:'loading', icon:'⏳' },
+          { label:'Day 8 — Switch to Maintenance', date: fmt(maint), desc:`<strong>Reduce to Apixaban 5mg BD</strong> from this date. ⚠️ Do NOT continue 10mg BD beyond Day 7 — increases serious bleeding risk.`, type:'switch', icon:'🔄' },
+          { label:'Ongoing (≥3 months)', date:'Per indication', desc:`Continue <strong>Apixaban 5mg BD</strong>. After ≥6 months consider 2.5mg BD for extended secondary prevention if indicated and approved by prescriber.`, type:'maint', icon:'♾️' }
+        ];
+      } else if (drug === 'riva') {
+        const maint = addD(d0, 21);
+        phases = [
+          { label:'Day 1', date: fmt(d0), desc:`Start <strong>Rivaroxaban 15mg BD with food</strong> (VTE lead-in dose — no parenteral needed). <em>Must be taken with food</em> for adequate absorption.`, type:'start', icon:'🟢' },
+          { label:'Days 1–21', date:`${fmt(d0)} → ${fmt(addD(d0,20))}`, desc:`Continue <strong>Rivaroxaban 15mg BD with food</strong> for 21 days. Both doses must be taken with meals.`, type:'loading', icon:'⏳' },
+          { label:'Day 22 — Switch to Maintenance', date: fmt(maint), desc:`<strong>Reduce to Rivaroxaban 20mg OD with evening meal</strong> from this date. ⚠️ Do NOT continue 15mg BD beyond Day 21.`, type:'switch', icon:'🔄' },
+          { label:'Ongoing (≥3 months)', date:'Per indication', desc:`Continue <strong>Rivaroxaban 20mg OD with food</strong>. After ≥6 months consider 10mg OD for extended secondary prevention if indicated.`, type:'maint', icon:'♾️' }
+        ];
+      }
+
+      renderTimeline(tlContent, phases, col);
+      tlWrapper.style.display = 'block';
+    }
   }
+}
 
+// ── Shared timeline renderer ──────────────────────────────────────────────────
+function renderTimeline(container, phases, col) {
   const typeStyle = {
-    start:     'border-left:4px solid var(--success);background:var(--success-light)',
-    loading:   'border-left:4px solid var(--warning);background:var(--warning-light)',
-    parenteral:'border-left:4px solid #0284c7;background:var(--info-light)',
-    switch:    `border-left:4px solid ${col};background:white`,
-    maint:     'border-left:4px solid var(--text-light);background:#f8fafc',
+    start:      'border-left:4px solid var(--success);background:var(--success-light)',
+    loading:    'border-left:4px solid var(--warning);background:var(--warning-light)',
+    parenteral: 'border-left:4px solid #0284c7;background:var(--info-light)',
+    switch:     `border-left:4px solid ${col};background:white`,
+    maint:      'border-left:4px solid var(--text-light);background:#f8fafc',
   };
-
   let html = `<div style="border-top:3px solid ${col};border-radius:0 0 8px 8px;overflow:hidden">`;
   phases.forEach((p, i) => {
     html += `<div style="display:grid;grid-template-columns:200px 1fr;gap:0;${i>0?'border-top:1px solid var(--border)':''}">
@@ -2392,15 +3520,8 @@ function updateDosePlanner() {
     </div>`;
   });
   html += `</div>`;
-  html += `<div style="font-size:0.73rem;color:var(--text-muted);margin-top:8px">⚠️ Dates are based on the entered start date. Always confirm with prescriber. Duration of treatment (min. 3 months) to be guided by clinical indication.</div>`;
-  tl.innerHTML = html;
+  container.innerHTML = html;
 }
-
-// Set today's date on load for tracker
-window.addEventListener('load', () => {
-  const t = new Date().toISOString().split('T')[0];
-  if (document.getElementById('tracker-today')) document.getElementById('tracker-today').value = t;
-});
 
 
 // ============ PRINT COUNSELING SHEET ============
@@ -2528,8 +3649,9 @@ function printCounselingSheet() {
         Patient / Guardian Signature: ___________________________ &nbsp;&nbsp;&nbsp; Date: _______________
       </div>
 
-      <div class="print-footer">
-        ${d.name} | Dispensed by: __________________ | Screened by PF: __________________ | HSgB Pharmacy — For internal use only
+      <div class="print-footer" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px">
+        <span>${d.name} | Dispensed by: __________________ | Screened by PF: __________________</span>
+        <span style="color:#94a3b8;font-style:italic">Printed from DOAC Compass · HSgB Pharmacy · For internal use only</span>
       </div>
     </div>
   `;
@@ -2537,9 +3659,11 @@ function printCounselingSheet() {
   window.print();
 }
 
-// Set today automatically on page load
+// Pre-fill today's date for parenteral day1 input on load
 window.addEventListener('load', () => {
-  document.getElementById('tracker-today').value = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split('T')[0];
+  const el = document.getElementById('ip-parenteral-day1');
+  if (el) el.value = today;
 });
 
 function showConversion() {
@@ -2682,7 +3806,7 @@ function showDaptScenario() {
 
   <div class="alert alert-info">
     <span class="alert-icon">📎</span>
-    <div>All source documents uploaded by the pharmacist team. Click <strong>Open / Download</strong> on any reference to view the original file. Reference numbers <a class="ref-sup" style="cursor:default;vertical-align:middle">1</a> appear throughout the tool — click any to jump here.</div>
+    <div>All source documents uploaded by the pharmacist team. Click <strong>Open / Download</strong> on any reference to view the original file. Reference numbers <a class="ref-sup" style="cursor:default;vertical-align:middle"><span class="ref-tooltip">1. NOAC Briefing</span>1</a> appear throughout the tool — click any to jump here.</div>
   </div>
 
   <div class="card">
@@ -2692,8 +3816,8 @@ function showDaptScenario() {
       <div class="ref-num">1</div>
       <div class="ref-body">
         <div class="ref-title">NOAC Briefing <span class="ref-type-badge rtb-pdf">PDF</span></div>
-        <div class="ref-desc">Core clinical briefing document on NOACs/DOACs. Covers drug mechanisms, indications, dosing, contraindications, special populations, and pharmacist roles. Primary reference for drug information in the Reference Hub and Counseling tabs.</div>
-        <div class="ref-used">Used in: Reference Hub (all drug cards), Drug Comparisons, Special Populations, Counseling Points</div>
+        <div class="ref-desc">Core clinical briefing document on NOACs/DOACs. Covers drug mechanisms, indications, dosing, contraindications, special populations, and pharmacist roles. Primary reference for drug information in the Anticoag Hub and Counseling tabs.</div>
+        <div class="ref-used">Used in: Anticoag Hub (all drug cards), Drug Comparisons, Special Populations, Counseling Points</div>
         <div class="ref-actions">
           <a class="ref-view" href="1__NOAC_BRIEFING.pdf" target="_blank">↗ Open</a>
           <a class="ref-download" href="1__NOAC_BRIEFING.pdf" download>⬇ Download</a>
@@ -2745,7 +3869,7 @@ function showDaptScenario() {
       <div class="ref-body">
         <div class="ref-title">VTE / AF Flow Chart — Updated June 2024 <span class="ref-type-badge rtb-pdf">PDF</span></div>
         <div class="ref-desc">Clinical decision flowchart for VTE and AF management (June 2024). Guides DOAC selection, lead-in dose requirements, parenteral bridging decisions, and treatment duration for DVT, PE, and atrial fibrillation.</div>
-        <div class="ref-used">Used in: AC Conversion tab — Parenteral Bridging Tracker, Dose Date Planner; Reference Hub — VTE dosing information</div>
+        <div class="ref-used">Used in: AC Conversion tab — Parenteral Bridging Tracker, Dose Date Planner; Anticoag Hub — VTE dosing information</div>
         <div class="ref-actions">
           <a class="ref-view" href="5__VTE_AF_Flow_Chart_Updated_June_2024.pdf" target="_blank">↗ Open</a>
           <a class="ref-download" href="5__VTE_AF_Flow_Chart_Updated_June_2024.pdf" download>⬇ Download</a>
@@ -2757,7 +3881,7 @@ function showDaptScenario() {
       <div class="ref-num">6</div>
       <div class="ref-body">
         <div class="ref-title">DOAC Newsletter — Latest March 2025 <span class="ref-type-badge rtb-pdf">PDF</span></div>
-        <div class="ref-desc">Pharmacy department DOAC newsletter (March 2025). Contains updates on clinical evidence, trial summaries (PIONEER AF-PCI, RE-DUAL PCI, AUGUSTUS, ENTRUST), DAPT/triple therapy guidance, HAS-BLED scoring, and practice updates.</div>
+        <div class="ref-desc">Pharmacy department DOAC newsletter (March 2025). Contains updates on clinical evidence, trial summaries (PIONEER AF-PCI, RE-DUAL PCI, AUGUSTUS, ENTRUST), HAS-BLED scoring, and general DOAC practice updates.</div>
         <div class="ref-used">Used in: DAPT / Triple Therapy tab (all content), HAS-BLED calculator, drug comparison updates</div>
         <div class="ref-actions">
           <a class="ref-view" href="2__DOAC_Newsletter_LATEST_March_2025.pdf" target="_blank">↗ Open</a>
@@ -2771,7 +3895,7 @@ function showDaptScenario() {
       <div class="ref-body">
         <div class="ref-title">Parenteral Anticoagulants for VTE <span class="ref-type-badge rtb-pdf">PDF</span></div>
         <div class="ref-desc">Reference guide for parenteral anticoagulants used in VTE. Covers Enoxaparin (Clexane), Fondaparinux (Arixtra), and Heparin (IV/SC) — treatment and prophylaxis dosing, renal adjustments, HIT risk, reversal agents, and special populations.</div>
-        <div class="ref-used">Used in: Reference Hub — Parenteral Anticoagulants table; AC Conversion tab — Parenteral Bridging Tracker</div>
+        <div class="ref-used">Used in: Anticoag Hub — Parenteral Anticoagulants table; AC Conversion tab — Parenteral Bridging Tracker</div>
         <div class="ref-actions">
           <a class="ref-view" href="5__Parenteral_Anticoagulants_for_VTE.pdf" target="_blank">↗ Open</a>
           <a class="ref-download" href="5__Parenteral_Anticoagulants_for_VTE.pdf" download>⬇ Download</a>
@@ -2797,7 +3921,7 @@ function showDaptScenario() {
       <div class="ref-body">
         <div class="ref-title">DOAC CME Slides <span class="ref-type-badge rtb-pdf">PDF</span></div>
         <div class="ref-desc">Continuing Medical Education slide deck on DOACs. Comprehensive academic reference covering pharmacology, clinical evidence, dosing algorithms, drug interactions, special populations (renal, hepatic, extremes of weight, NG tube), and reversal strategies.</div>
-        <div class="ref-used">Used in: Reference Hub (drug detail panels), drug comparison table, special populations section, counseling content</div>
+        <div class="ref-used">Used in: Anticoag Hub (drug detail panels), drug comparison table, special populations section, counseling content</div>
         <div class="ref-actions">
           <a class="ref-view" href="1__DOAC_CME.pdf" target="_blank">↗ Open</a>
           <a class="ref-download" href="1__DOAC_CME.pdf" download>⬇ Download</a>
@@ -2844,12 +3968,64 @@ function showDaptScenario() {
       </div>
     </div>
 
+    <div class="ref-card">
+      <div class="ref-num">13</div>
+      <div class="ref-body">
+        <div class="ref-title">General Recommended Duration — Dual AntiPlatelet Therapy (DAPT) <span class="ref-type-badge rtb-pdf">PDF</span></div>
+        <div class="ref-desc">Institutional DAPT duration guide (January 2025), prepared by PRIC, Sia Hee Peng &amp; Pee Lay Ting, Hospital Sungai Buloh. Covers recommended DAPT durations for NSTE-ACS, STEMI, Stable CAD, patients on chronic OAC (triple/dual antithrombotic therapy), and ischaemic stroke — stratified by PRECISE-DAPT bleeding risk and revascularisation strategy (PCI, CABG, medical therapy).</div>
+        <div class="ref-used">Used in: DAPT / Triple Therapy tab — duration reference, scenario guide, bleeding minimisation</div>
+        <div class="ref-actions">
+          <a class="ref-view" href="DAPT_Duration.pdf" target="_blank">↗ Open</a>
+          <a class="ref-download" href="DAPT_Duration.pdf" download>⬇ Download</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card">
+      <div class="ref-num">14</div>
+      <div class="ref-body">
+        <div class="ref-title">HSgB Anticoagulant Chart for COVID-19 Cases <span class="ref-type-badge rtb-pdf">PDF</span></div>
+        <div class="ref-desc">Institutional parenteral anticoagulant dosing guide for COVID-19 (January 2022), prepared by AMS Pharmacists (Izyana &amp; Hannah), Clinical Unit (Sia) &amp; PRIC (Abby), Hospital Sungai Buloh. Covers Enoxaparin (Clexane), Fondaparinux (Arixtra), and Unfractionated Heparin — stratified by oxygen requirement (high-flow vs low-flow), body weight, BMI, and renal function (CrCl 15–30 ml/min adjusted doses). Includes thromboprophylaxis (standard and therapeutic-dose) and DVT/PE treatment dosing. Not intended for ICU, pregnant, or paediatric patients.</div>
+        <div class="ref-used">Potential use: Parenteral Anticoagulants section — COVID-19 specific dosing context</div>
+        <div class="ref-actions">
+          <a class="ref-view" href="COVID_-_Inj__Anticoagulant_Dosing_Guide__Jan_2022_.pdf" target="_blank">↗ Open</a>
+          <a class="ref-download" href="COVID_-_Inj__Anticoagulant_Dosing_Guide__Jan_2022_.pdf" download>⬇ Download</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card">
+      <div class="ref-num">15</div>
+      <div class="ref-body">
+        <div class="ref-title">HSgB IV Infusion Heparin Protocol for VTE <span class="ref-type-badge rtb-pdf">PDF</span></div>
+        <div class="ref-desc">Institutional guide for IV unfractionated heparin (UFH) continuous infusion in VTE treatment, Jabatan Farmasi Hospital Sungai Buloh. Covers protocol selection (Option A: weight-based for underweight/overweight/elderly; Option B: non weight-based for all others), initiation doses, preparation &amp; administration, APTT monitoring targets, dose adjustment tables, and protamine sulfate reversal. Includes Appendix: IBW, ABW, BMI formulae.</div>
+        <div class="ref-used">Used in: Anticoag Hub — Parenteral Anticoagulant Dose Calculator (UFH treatment dose reference)</div>
+        <div class="ref-actions">
+          <a class="ref-view" href="HSgB_IVI_Heparin_Protocol_for_VTE.pdf" target="_blank">↗ Open</a>
+          <a class="ref-download" href="HSgB_IVI_Heparin_Protocol_for_VTE.pdf" download>⬇ Download</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card">
+      <div class="ref-num">16</div>
+      <div class="ref-body">
+        <div class="ref-title">Weight-Based Clexane® (Enoxaparin) Dose for Thromboprophylaxis in Pregnancy <span class="ref-type-badge" style="background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd">PNG</span></div>
+        <div class="ref-desc">Dosing guide based on RCOG Green-top Guideline No. 37a — Reducing the Risk of Venous Thromboembolism during Pregnancy and the Puerperium. Covers antenatal LMWH weight-based once-daily dosing (&lt;50 kg to &gt;170 kg), key principles (booking weight, anti-Xa monitoring not required), and important clinical notes (timing before neuraxial anaesthesia, platelet monitoring). Also includes postnatal thromboprophylaxis duration (intermediate risk: ≥10 days; high risk: 6 weeks).</div>
+        <div class="ref-used">Used in: Anticoag Hub — Parenteral Anticoagulant Dose Calculator (pregnancy thromboprophylaxis)</div>
+        <div class="ref-actions">
+          <a class="ref-view" href="Pregnancy_thromboprophylaxis_dosing_guide2_png.png" target="_blank">↗ Open</a>
+          <a class="ref-download" href="Pregnancy_thromboprophylaxis_dosing_guide2_png.png" download>⬇ Download</a>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="card" style="background:var(--bg);border-style:dashed">
     <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.8">
       <strong style="color:var(--navy)">How references are used in this tool:</strong><br>
-      Throughout the tool, small numbered badges <a class="ref-sup" style="cursor:default;vertical-align:middle;position:relative;top:-1px">1</a> appear next to section headings and card titles. These indicate which source documents the content was derived from. Click any badge to return to this References tab.<br><br>
+      Throughout the tool, small numbered badges <a class="ref-sup" style="cursor:default;vertical-align:middle;position:relative;top:-1px"><span class="ref-tooltip">1. NOAC Briefing</span>1</a> appear next to section headings and card titles. These indicate which source documents the content was derived from. Click any badge to return to this References tab.<br><br>
       <strong style="color:var(--navy)">File format note:</strong> PDF files can be opened in any PDF viewer or browser tab using the <em>Open</em> button. XLS/XLSX files can be downloaded and opened with Microsoft Office or equivalent — use the <em>Download</em> button.<br><br>
       <strong style="color:var(--navy)">For internal use only.</strong> This tool is intended as a clinical aid for pharmacist use. All clinical decisions should be cross-referenced with current institutional guidelines and specialist input where required.
     </div>
@@ -2870,7 +4046,7 @@ function showDaptScenario() {
 
   <!-- What is DAPT/Triple Therapy -->
   <div class="card">
-    <div class="card-title">❤️ Understanding DAPT &amp; Triple Therapy<a class="ref-sup" onclick="switchTab('refs')" title="See References">6</a></div>
+    <div class="card-title">❤️ Understanding DAPT &amp; Triple Therapy<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">13. DAPT Duration Guide (Jan 2025)</span>13</a></div>
     <div class="two-col">
       <div>
         <div class="section-label">Definitions</div>
@@ -2909,7 +4085,7 @@ function showDaptScenario() {
 
   <!-- DOAC preferred in AF+PCI -->
   <div class="card">
-    <div class="card-title">💊 DOAC Choice in AF + PCI Context<a class="ref-sup" onclick="switchTab('refs')" title="See References">6</a></div>
+    <div class="card-title">💊 DOAC Choice in AF + PCI Context<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">6. DOAC Newsletter (Mar 2025)</span>6</a><a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">13. DAPT Duration Guide (Jan 2025)</span>13</a></div>
     <div class="note-box">Based on major trials (PIONEER AF-PCI, RE-DUAL PCI, AUGUSTUS, ENTRUST-AF PCI) — DOACs are preferred over Warfarin in AF+PCI due to lower bleeding risk.</div>
     <div style="overflow-x:auto">
     <table>
@@ -2952,7 +4128,7 @@ function showDaptScenario() {
 
   <!-- Duration Guide -->
   <div class="card">
-    <div class="card-title">⏱️ Antithrombotic Duration Reference<a class="ref-sup" onclick="switchTab('refs')" title="See References">6</a></div>
+    <div class="card-title">⏱️ Antithrombotic Duration Reference<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">13. DAPT Duration Guide (Jan 2025)</span>13</a></div>
     <div style="overflow-x:auto">
     <table>
       <tr>
@@ -3028,7 +4204,7 @@ function showDaptScenario() {
 
   <!-- Bleeding Risk Management -->
   <div class="card">
-    <div class="card-title">🩸 Minimising Bleeding Risk in Triple / Dual Therapy<a class="ref-sup" onclick="switchTab('refs')" title="See References">6</a></div>
+    <div class="card-title">🩸 Minimising Bleeding Risk in Triple / Dual Therapy<a class="ref-sup" onclick="switchTab('refs')" title="See References"><span class="ref-tooltip">13. DAPT Duration Guide (Jan 2025)</span>13</a></div>
     <div class="two-col">
       <div>
         <div class="section-label">Pharmacist Checklist</div>
@@ -3059,64 +4235,49 @@ function showDaptScenario() {
 </div>
 
 <!-- ======== FOOTER ======== -->
-<footer style="
-  background: var(--navy);
-  color: #94a3b8;
-  padding: 28px 24px;
-  margin-top: 32px;
-  font-family: 'Source Sans 3', sans-serif;
-  font-size: 0.82rem;
-  line-height: 1.75;
-">
-  <div style="max-width:1100px; margin:0 auto;">
+<footer style="background:var(--navy);color:#94a3b8;padding:28px 24px;margin-top:32px;font-family:'Source Sans 3',sans-serif;font-size:0.82rem;line-height:1.75;">
+  <div style="max-width:1100px;margin:0 auto;">
 
-    <!-- Top row: credits + launch -->
-    <div style="display:flex; flex-wrap:wrap; gap:24px; margin-bottom:18px; padding-bottom:18px; border-bottom:1px solid #1a3a5c;">
-      <div style="flex:1; min-width:220px;">
-        <div style="font-family:'Sora',sans-serif; font-weight:700; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:#38bdf8; margin-bottom:6px;">Developed by</div>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #1a3a5c;">
+      <div style="flex:1;min-width:220px;">
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#38bdf8;margin-bottom:6px;">Developed by</div>
         <div style="color:#e2e8f0;">Izyana Munirah Idham</div>
         <div style="color:#64748b;">AMS Pharmacist, Hospital Sungai Buloh</div>
       </div>
-      <div style="flex:1; min-width:220px;">
-        <div style="font-family:'Sora',sans-serif; font-weight:700; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:#38bdf8; margin-bottom:6px;">Collaborators</div>
-        <div style="color:#64748b; font-style:italic;">In Progress</div>
+      <div style="flex:1;min-width:220px;">
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#38bdf8;margin-bottom:6px;">Collaborators</div>
+        <div style="color:#cbd5e1;line-height:1.7;">
+          <div>Farrah Idayu, Fan Siow Chi, Ng Ruiyi &amp; Hannah <span style="color:#475569;font-size:0.8rem">(Clinical Pharmacy)</span></div>
+          <div>Nabilah &amp; Joanne <span style="color:#475569;font-size:0.8rem">(IPD Pharmacy)</span></div>
+          <div>Farah Syakirah <span style="color:#475569;font-size:0.8rem">(PRIC)</span></div>
+        </div>
       </div>
-      <div style="flex:1; min-width:160px;">
-        <div style="font-family:'Sora',sans-serif; font-weight:700; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:#38bdf8; margin-bottom:6px;">Launched</div>
-        <div style="color:#e2e8f0;">April 2026</div>
+      <div style="flex:1;min-width:160px;">
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#38bdf8;margin-bottom:6px;">Launched</div>
+        <div style="color:#e2e8f0;">May 2026</div>
       </div>
     </div>
 
-    <!-- Disclaimer -->
     <div style="margin-bottom:16px;">
-      <div style="font-family:'Sora',sans-serif; font-weight:700; font-size:0.75rem; letter-spacing:0.08em; text-transform:uppercase; color:#38bdf8; margin-bottom:6px;">Disclaimer</div>
-      <div style="color:#94a3b8; max-width:860px;">
-        This calculation kit provides general guidance based on published evidence and expert opinion to support standardised practice in Hospital Sungai Buloh. It may not cover all clinical scenarios. Healthcare practitioners should review individual patient details and use professional judgment when applying this guide.
-      </div>
+      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:#38bdf8;margin-bottom:6px;">Disclaimer</div>
+      <div style="color:#94a3b8;max-width:860px;">This calculation kit provides general guidance based on published evidence and expert opinion to support standardised practice in Hospital Sungai Buloh. It may not cover all clinical scenarios. Healthcare practitioners should review individual patient details and use professional judgment when applying this guide.</div>
     </div>
 
-    <!-- Bottom row: restricted use + feedback -->
-    <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; padding-top:16px; border-top:1px solid #1a3a5c;">
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span style="background:#1a3a5c; color:#38bdf8; font-size:0.68rem; font-family:'Sora',sans-serif; font-weight:700; letter-spacing:0.05em; padding:3px 9px; border-radius:4px; text-transform:uppercase;">🔒 Restricted</span>
-        <span style="color:#475569;">For Hospital Sungai Buloh Staff Use Only</span>
+    <div style="padding-top:16px;border-top:1px solid #1a3a5c;">
+
+      <div style="margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+          <span style="background:#1a3a5c;color:#38bdf8;font-size:0.68rem;font-family:'Sora',sans-serif;font-weight:700;letter-spacing:0.05em;padding:3px 9px;border-radius:4px;text-transform:uppercase;white-space:nowrap">🔒 Restricted</span>
+          <span style="color:#cbd5e1;font-size:0.82rem;font-weight:600">For Hospital Sungai Buloh Staff Use Only</span>
+        </div>
+        <div style="color:#94a3b8;font-size:0.78rem;line-height:1.6">© Pharmacy Department, Hospital Sungai Buloh. All rights reserved. Unauthorised reproduction, modification or distribution is prohibited.</div>
       </div>
-      <div style="display:flex; align-items:center; gap:8px; color:#64748b;">
-        <span>📝</span>
-        <span>We welcome your feedback to improve this tool.</span>
-        <a href="https://forms.gle/XW6NgKrCZLiQV4xp6" target="_blank" style="
-          color:white;
-          background: var(--teal);
-          padding: 5px 14px;
-          border-radius: 6px;
-          font-family:'Sora',sans-serif;
-          font-weight:600;
-          font-size:0.78rem;
-          text-decoration:none;
-          transition: background 0.15s;
-          white-space:nowrap;
-        " onmouseover="this.style.background='#0f766e'" onmouseout="this.style.background='var(--teal)'">Submit Feedback ↗</a>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;color:#94a3b8;font-size:0.82rem">
+        <span>📝 We welcome your feedback to improve this tool.</span>
+        <a href="https://forms.gle/XW6NgKrCZLiQV4xp6" target="_blank" style="color:white;background:#0d9488;padding:6px 16px;border-radius:6px;font-family:'Sora',sans-serif;font-weight:600;font-size:0.78rem;text-decoration:none;white-space:nowrap">Submit Feedback ↗</a>
       </div>
+
     </div>
 
   </div>
